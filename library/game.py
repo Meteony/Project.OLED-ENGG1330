@@ -48,7 +48,7 @@ def wait_for_key(win, ignore=(curses.KEY_RESIZE,)):
         win.nodelay(True)                 
 
 
-def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable_recording=True):
+def game(win,mode='classic',replay_mode=False,replay_file='Default.oled',enable_recording=True):
     game.mode = mode
     game.enablerecording = enable_recording
     game.replaymode=replay_mode
@@ -96,7 +96,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
         #########################################################
         
         powr_tuple = (225, 225) #Safe default states for the playback
-        crpt_tuple = (225, 225)
+        integrity_tuple = (225, 225)
         score = 0
         message = ''
 
@@ -119,7 +119,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 if fetched_stat[3]!=None:
                     powr_tuple = fetched_stat[3]
                 if fetched_stat[4]!=None:
-                    crpt_tuple = fetched_stat[4]      
+                    integrity_tuple = fetched_stat[4]      
                 if fetched_stat[5]!=None:
                     score = fetched_stat[5]
                 if fetched_stat[6]!=None:
@@ -138,7 +138,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 win.erase()  # erase buffer
 
 
-            powr_indicator_str = "-"*30; crpt_indicator_str = "-"*30
+            powr_indicator_str = "-"*30; integrity_indicator_str = "-"*30
 
             map_data_visual = []
             for row in range(len(map_data)):
@@ -147,7 +147,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 f' │ │ {"POWER DRAIN:":<30} │ ',
                 f" │ │ {powr_indicator_str:<30} │ ",
                 f' │ │ {r"""INTEGRITY INDEX:""":<30} │ ',
-                f" │ │ {crpt_indicator_str:<30} │ ",
+                f" │ │ {integrity_indicator_str:<30} │ ",
                 f' │ │ {"ENERGY LOSS:":<30} │ ',
                 f" │ │ {score:<30} │ ",
                 f' │ ├─{" SYSTEM LOG ":─^30}─┤ ',
@@ -203,14 +203,14 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
 
         
                 #Corruption Countdown indicator
-                if crpt_tuple[0] / crpt_tuple[1] < 0.033:                   
+                if integrity_tuple[0] / integrity_tuple[1] < 0.033:                   
                     win.addstr(5, 36, '-'*30,curses.color_pair(3))          
-                elif crpt_tuple[0] / crpt_tuple[1] < 0.15: 
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(3))
-                elif crpt_tuple[0] / crpt_tuple[1] < 0.45:
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(2)) 
+                elif integrity_tuple[0] / integrity_tuple[1] < 0.15: 
+                    win.addstr(5, 36, '^'*(int(30 * (integrity_tuple[0] / integrity_tuple[1]))),curses.color_pair(3))
+                elif integrity_tuple[0] / integrity_tuple[1] < 0.45:
+                    win.addstr(5, 36, '^'*(int(30 * (integrity_tuple[0] / integrity_tuple[1]))),curses.color_pair(2)) 
                 else:
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(1))
+                    win.addstr(5, 36, '^'*(int(30 * (integrity_tuple[0] / integrity_tuple[1]))),curses.color_pair(1))
                     
                 #Energy Loss (Counter) Indicator
                 if score in range(0,-501,-1):                                        
@@ -225,8 +225,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
 
                 if game.mode == 'classic': #Hide irrelevant indicators in classic mode                
                     win.addstr(2, 36,f'{"PROGRESS:":<30}')
-                    win.addstr(4, 36, ' '*30)
-                    win.addstr(5, 36, ' '*30)
+                    win.addstr(4, 36,f'{"REMAINING OVERRIDES:":<30}')
 
             except:
                 pass
@@ -244,7 +243,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 break           #<---------------------------------------------------------------Breaks main loop
             
             if key == 'n':      #Override Patch
-                if not crpt_tuple[0] / crpt_tuple[1] <= 0.45: 
+                if not integrity_tuple[0] / integrity_tuple[1] <= 0.45: 
                     time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
 
             try: #<-------------------Pause/Skip implementation for replays (it looks for {m}/{k})
@@ -333,7 +332,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
         
 
         powr_tuple = (122, 225)
-        crpt_tuple = (450, 900)
+        integrity_tuple = (450, 900)
         score = 0
         message = f"{'Game started ('+game.mode+' mode)':^30}"+' '*30+f"{'Minimize energy loss!':^30}"+f"""{'Eliminate all "■" tiles.':^30}"""+' '*30
         message += f"{r'{m} to pause; {k} to speedrun':^30}"
@@ -373,7 +372,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                         
 
             #region --------------------------------Game Rules-----------------------------------------
-            if crpt_tuple[0] < 1: #Corruption, Corruption Grace, Override non-grace
+            if integrity_tuple[0] < 1 and game.mode != 'classic': #Corruption, Corruption Grace, Override non-grace
                 #Normal corruption behavior
                 score_cache=score
                 for _ in range(1,random.randint(2,4)):
@@ -383,7 +382,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 message = syslog_appended(f'{"[!] "+str(int((score - score_cache)/per_crpt_score_pen))+r"""x "■" [-"""+str(score_cache - score)+" ENERGY]"}', message)
                 
                 
-                crpt_tuple=(396,900) #Penalty Burn-in countdown (910,900)
+                integrity_tuple=(396,900) #Penalty Burn-in countdown (910,900)
                 powr_tuple = (sum (x == '1' for row in map_data[:] for x in row ),225)
                 lwst_powr_tuple_rc = powr_tuple[0]
 
@@ -394,12 +393,12 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                     change=lwst_powr_tuple_rc-powr_tuple[0]
                     adder=200+round(100*(change/5))
                     lwst_powr_tuple_rc = powr_tuple[0]
-                    crpt_tuple=(min(crpt_tuple[0]+adder,900),900)
+                    integrity_tuple=(min(integrity_tuple[0]+adder,900),900)
                 else: #Gradual Corruption
-                    crpt_tuple = (crpt_tuple[0]-1*int(game.mode != 'classic')-(powr_loss_rate*powr_tuple[0]/powr_tuple[1]),crpt_tuple[1]) #Crank up 19 to reach the ending screen quick
+                    integrity_tuple = (integrity_tuple[0]-1*int(game.mode != 'classic')-(powr_loss_rate*powr_tuple[0]/powr_tuple[1]),integrity_tuple[1]) #Crank up 19 to reach the ending screen quick
             except: #Probably first few ticks. Bug prevention
                 lwst_powr_tuple_rc = powr_tuple[0]
-                crpt_tuple=(910,900)
+                integrity_tuple=(910,900)
 
             if tick > 9 and tick%20 == 0: #score drops as time passes
                 score -= max(1,int(max_per_2s_score_pen* (powr_tuple[0] / powr_tuple[1])))
@@ -413,7 +412,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
             
             
             
-            powr_indicator_str = "-" * 30; crpt_indicator_str = "-" * 30 #Indicators base
+            powr_indicator_str = "-" * 30; integrity_indicator_str = "-" * 30 #Indicators base
 
             map_data_visual = []
             for row in range(len(map_data)):
@@ -422,7 +421,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 f' │ │ {"POWER DRAIN:":<30} │ ',
                 f" │ │ {powr_indicator_str:<30} │ ",
                 f' │ │ {r"""INTEGRITY INDEX:""":<30} │ ',
-                f' │ │ {crpt_indicator_str:<30} │ ',
+                f' │ │ {integrity_indicator_str:<30} │ ',
                 f' │ │ {"ENERGY LOSS:":<30} │ ',
                 f" │ │ {score:<30} │ ",
                 f' │ ├─{" SYSTEM LOG ":─^30}─┤ ',
@@ -474,14 +473,14 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                     win.addstr(3, 36+max(0,-1+int(30 * (powr_tuple[0] / powr_tuple[1]))),'█')
                                             
                 #Corruption Countdown indicator
-                if crpt_tuple[0] / crpt_tuple[1] < 0.033:                   
+                if integrity_tuple[0] / integrity_tuple[1] < 0.033:                   
                     win.addstr(5, 36, '-'*30,curses.color_pair(3))          
-                elif crpt_tuple[0] / crpt_tuple[1] < 0.15: 
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(3))
-                elif crpt_tuple[0] / crpt_tuple[1] < 0.45:
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(2)) 
+                elif integrity_tuple[0] / integrity_tuple[1] < 0.15: 
+                    win.addstr(5, 36, '^'*(int(30 * (integrity_tuple[0] / integrity_tuple[1]))),curses.color_pair(3))
+                elif integrity_tuple[0] / integrity_tuple[1] < 0.45:
+                    win.addstr(5, 36, '^'*(int(30 * (integrity_tuple[0] / integrity_tuple[1]))),curses.color_pair(2)) 
                 else:
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(1))
+                    win.addstr(5, 36, '^'*(int(30 * (integrity_tuple[0] / integrity_tuple[1]))),curses.color_pair(1))
                     
                 #Energy Loss Indicator
                 if score in range(0,-501,-1):                                        
@@ -496,8 +495,9 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
 
                 if game.mode == 'classic': #Hide irrelevant indicators in classic mode                
                     win.addstr(2, 36,f'{"PROGRESS:":<30}')
-                    win.addstr(4, 36, ' '*30)
-                    win.addstr(5, 36, ' '*30)
+                    win.addstr(4, 36,f'{"REMAINING OVERRIDES:":<30}')
+                    #win.addstr(4, 36, ' '*30)
+                    #win.addstr(5, 36, ' '*30)
 
 
 
@@ -514,11 +514,11 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                 try: _ = game.last_cached_stats 
                 except:  game.last_cached_stats =dict()
                 steps = 60
-                crpt_tuple_rounded = ((crpt_tuple[1]/steps)*
-                                    round(60*crpt_tuple[0]/crpt_tuple[1]),
-                                    crpt_tuple[1])
+                integrity_tuple_rounded = ((integrity_tuple[1]/steps)*
+                                    round(60*integrity_tuple[0]/integrity_tuple[1]),
+                                    integrity_tuple[1])
                 next_set_of_stats = []
-                for id, value in enumerate((key,(selector[:]),str(map_data[:]),(powr_tuple),(crpt_tuple_rounded),score,message,lwst_powr_tuple_rc)):
+                for id, value in enumerate((key,(selector[:]),str(map_data[:]),(powr_tuple),(integrity_tuple_rounded),score,message,lwst_powr_tuple_rc)):
                     if value not in game.last_cached_stats.values():
                         game.last_cached_stats[id] = value
                         next_set_of_stats.append(value)
@@ -600,36 +600,45 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                     except curses.error: pass                
             """
             elif key == 'n':      #Override Patch
-                if game.mode!='classic':
-                    if game.mode == 'hardcore':
-                        if crpt_tuple[0] / crpt_tuple[1] < 0.15: 
-                            message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
-                        elif crpt_tuple[0] / crpt_tuple[1] < 0.45:
-                            crpt_tuple=(100,900) #126
-                            override(selector[1],selector[0],map_data)
-                            message = syslog_appended(f"{'[!] Override completed!'}", message)
-                            lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
-                            time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
-                        else:
-                            new_value = max((crpt_tuple[0]-500),270)
-                            crpt_tuple=(new_value,crpt_tuple[1])
-                            override(selector[1],selector[0],map_data)
-                            message = syslog_appended(f"{'[!] Override completed!'}", message)
-                            lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
-                            time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
+                #integrity_tuple=(900,900)
+                if game.mode=='classic':
+                    if round(integrity_tuple[0]/300)>0:
+                        integrity_tuple=(integrity_tuple[0]-300,integrity_tuple[1])
+                        override(selector[1],selector[0],map_data)
+                        lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
+                        time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
+                        classic_remaining_or = round(integrity_tuple[0]/300)
+                        if classic_remaining_or>0:
+                            message = syslog_appended(f"[!] Remaining Overrides:{classic_remaining_or}.", message)  
+                        else:                      
+                            message = syslog_appended("[!] No remaining Overrides.", message)                        
+
+                    else:
+                        message = syslog_appended("[!] No remaining Overrides.", message)                        
+
+                elif game.mode in ('hardcore','standard'):
+                    if integrity_tuple[0] / integrity_tuple[1] < 0.15: 
+                        message = syslog_appended("[!] Insufficient integrity. Can't override.", message) 
+                    elif integrity_tuple[0] / integrity_tuple[1] < 0.45:
+                        message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
+                    else:
+                        new_value = max((integrity_tuple[0]-650),220)
+                        integrity_tuple=(new_value,integrity_tuple[1])
+                        override(selector[1],selector[0],map_data)
+                        message = syslog_appended(f"{'[!] Override completed!'}", message)
+                        lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
+                        time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
 
 
-                    else:    
-                        if crpt_tuple[0] / crpt_tuple[1] <= 0.45: 
-                            message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
-                        else:
-                            crpt_tuple=(126,900)
-                            override(selector[1],selector[0],map_data)
-                            message = syslog_appended(f"{'[!] Override completed!'}", message)
-                            lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
-                            time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
-                else:
-                        message = syslog_appended("[!] Override is not enabled in Classic mode.", message)                        
+                else:    
+                    if integrity_tuple[0] / integrity_tuple[1] <= 0.45: 
+                        message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
+                    else:
+                        integrity_tuple=(126,900)
+                        override(selector[1],selector[0],map_data)
+                        message = syslog_appended(f"{'[!] Override completed!'}", message)
+                        lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
+                        time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
                 #endregion
 
 
