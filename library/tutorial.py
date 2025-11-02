@@ -578,7 +578,7 @@ class GameTutorial:
                 "content": [
                     "• Classic Mode",
                     "A purists' puzzle solving",
-                    " > No Integrity system.",
+                    " > 3 Override chances.",
                     " > No [XX]/[!!] at start.",
                     " > Timed loss: 2 x Drain",
                     "   (~1 pt/2s at start).",
@@ -594,8 +594,8 @@ class GameTutorial:
                     "Tips:",
                     " > Rush to 0-5 ■ left",
                     " > Don't over-perfect",
-                    " > Press [K] once done"
-                    "                          ",
+                    " > Use Overrides sparingly",
+                    " > Press [K] once done",
                     "                          ",
                     "Continued on Next Page..."
                 ],
@@ -627,10 +627,10 @@ class GameTutorial:
                 "title": "MODES:",
                 "content": [
                     "• Hardcore Mode",
-                    "  > Again, early quitting is",
-                    "    not encouraged in this",
-                    "    mode; but don't forget",
-                    "    to do it in Classic.  ",
+                    "  > Slightly less costly    ",
+                    "    overrides.            ",
+                    "                          ",
+                    "                          ",
                     "                            ",
                     "Continued on Next Page..."
                 ]
