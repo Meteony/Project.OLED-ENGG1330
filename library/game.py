@@ -48,7 +48,7 @@ def wait_for_key(win, ignore=(curses.KEY_RESIZE,)):
         win.nodelay(True)                 
 
 
-def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_recording=True):
+def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable_recording=True):
     game.mode = mode
     game.enablerecording = enable_recording
     game.replaymode=replay_mode
@@ -599,14 +599,33 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
             """
             elif key == 'n':      #Override Patch
                 if game.mode!='classic':
-                    if crpt_tuple[0] / crpt_tuple[1] <= 0.45: 
-                        message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
-                    else:
-                        crpt_tuple=(126,900)
-                        override(selector[1],selector[0],map_data)
-                        message = syslog_appended(f"{'[!] Override completed!'}", message)
-                        lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
-                        time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
+                    if game.mode == 'hardcore':
+                        if crpt_tuple[0] / crpt_tuple[1] < 0.15: 
+                            message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
+                        elif crpt_tuple[0] / crpt_tuple[1] < 0.45:
+                            crpt_tuple=(100,900) #126
+                            override(selector[1],selector[0],map_data)
+                            message = syslog_appended(f"{'[!] Override completed!'}", message)
+                            lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
+                            time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
+                        else:
+                            new_value = max((crpt_tuple[0]-500),270)
+                            crpt_tuple=(new_value,crpt_tuple[1])
+                            override(selector[1],selector[0],map_data)
+                            message = syslog_appended(f"{'[!] Override completed!'}", message)
+                            lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
+                            time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
+
+
+                    else:    
+                        if crpt_tuple[0] / crpt_tuple[1] <= 0.45: 
+                            message = syslog_appended("[!] Insufficient integrity. Can't override.", message)                        
+                        else:
+                            crpt_tuple=(126,900)
+                            override(selector[1],selector[0],map_data)
+                            message = syslog_appended(f"{'[!] Override completed!'}", message)
+                            lwst_powr_tuple_rc = sum (x == '1' for row in map_data[:] for x in row)
+                            time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
                 else:
                         message = syslog_appended("[!] Override is not enabled in Classic mode.", message)                        
                 #endregion
