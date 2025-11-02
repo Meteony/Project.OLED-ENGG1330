@@ -1,0 +1,7 @@
+meteoni.scoreboard
+oled_connectivity.data
+oled_pref.data
+__pycache__/
+library/__pycache__/
+Saved Demos/
+Debug Scripts/
