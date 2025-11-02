@@ -391,8 +391,10 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
             powr_tuple = (sum (x == '1' for row in map_data[:] for x in row ),225)
             try: #Power tuple
                 if powr_tuple[0]<lwst_powr_tuple_rc: #Reward! 
+                    change=lwst_powr_tuple_rc-powr_tuple[0]
+                    adder=200+round(100*(change/5))
                     lwst_powr_tuple_rc = powr_tuple[0]
-                    crpt_tuple=(min(crpt_tuple[0]+220,900),900)
+                    crpt_tuple=(min(crpt_tuple[0]+adder,900),900)
                 else: #Gradual Corruption
                     crpt_tuple = (crpt_tuple[0]-1*int(game.mode != 'classic')-(powr_loss_rate*powr_tuple[0]/powr_tuple[1]),crpt_tuple[1]) #Crank up 19 to reach the ending screen quick
             except: #Probably first few ticks. Bug prevention
