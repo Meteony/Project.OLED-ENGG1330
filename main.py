@@ -375,9 +375,14 @@ while True:
                         win.erase()
 
                         curses.wrapper(main_menu.run)
+                        return
                     #win.nodelay(True),win.refresh()
                     except: 
                         main_menu.pop_notif(win,'An error has occured.')
+                        win.nodelay(True),win.erase()
+                        curses.wrapper(main_menu.run)
+                        return
+
 
                 
             elif win_name == 'main-settings':

@@ -708,475 +708,458 @@ def run_tutorial(win,playback_speed=2.5):
 
 
     while True:
-        #region draws the tutorial
-        step = tutorial.tutorial_steps[tutorial.current_step]
-        win.clear()
-        
-        title = step["title"]
-        #title_dash = "-" * 4
-        #title_complete = f"{title_dash}{title}{title_dash}"
-        title_complete = f"> {title}"
+        try:
+            #region draws the tutorial
+            step = tutorial.tutorial_steps[tutorial.current_step]
+            win.clear()
+            
+            title = step["title"]
+            #title_dash = "-" * 4
+            #title_complete = f"{title_dash}{title}{title_dash}"
+            title_complete = f"> {title}"
 
-        win.addstr(2, 3, title_complete, TITLE_COLOR)
-        for x in (1,34,67):#pretty vertical lines
-            for y in range(15):    
-                win.addstr(2+y,x,"│") #restores the overwritten lines
-
-
-        
-        # Display content with proper formatting
-        start_y = 3
-        current_line = 0
-        
-        for line in step["content"]:
-            pos_y = start_y + current_line
-            if line.startswith("•") or line.startswith(("1.","2.","3.","4.","5.")):
-                win.addstr(pos_y, 3, line, HIGHLIGHT_COLOR)
-            elif line == "":
-                continue
-            else:
-                win.addstr(pos_y, 3, line, TEXT_COLOR)
-            current_line += 1
-
-        #gameplay_trial_instance.run_a_frame(win, 'noinput')
-
-        nav_text = f"{tutorial.current_step + 1}/{len(tutorial.tutorial_steps)}|←: Back|→: Next|ESC: Exit"
-        if tutorial.current_step + 1 >9:
-            nav_text = f"{tutorial.current_step + 1}/{len(tutorial.tutorial_steps)}|←: Back|→: Next|ESC:Exit"
-
-        nav_x = 2
-
-        try: #FIXED FR
-            win.addstr(SCREEN_HEIGHT - 1, nav_x+1, nav_text, TEXT_COLOR)
-        except: 
-            pass
-
-        win.refresh()
-
-        #endregion
-        win.addstr(0,0,r""" Project OLED" Beta                                     A11 Software""")
-
-        if tutorial.current_step==0: #first step
-            win.nodelay(False)
-            for y in range(2,17):
-                win.addstr(y,36,' '*30) #clears out the right panel
-            for y in range(15):    
-                win.addstr(2+y,34," ")
-                win.addstr(2+y,67,"│") #restores the overwritten lines
-            #main_menu.draw_logo(win,x_offset=33,y_offset=7)
+            win.addstr(2, 3, title_complete, TITLE_COLOR)
+            for x in (1,34,67):#pretty vertical lines
+                for y in range(15):    
+                    win.addstr(2+y,x,"│") #restores the overwritten lines
 
 
-            y_ofst=3;x_ofst=35
+            
+            # Display content with proper formatting
+            start_y = 3
+            current_line = 0
+            
+            for line in step["content"]:
+                pos_y = start_y + current_line
+                if line.startswith("•") or line.startswith(("1.","2.","3.","4.","5.")):
+                    win.addstr(pos_y, 3, line, HIGHLIGHT_COLOR)
+                elif line == "":
+                    continue
+                else:
+                    win.addstr(pos_y, 3, line, TEXT_COLOR)
+                current_line += 1
 
-            ascii_art="""
-⢕⢕⢕⢕⠁⢜⠕⢁⣴⣿⡇⢓⢕⢵⢐⢕⢕⠕⢁⣾⢿⣧⠑⢕⢕⠄⢑⢕⠅⢕ 
-⢕⢕⠵⢁⠔⢁⣤⣤⣶⣶⣶⡐⣕⢽⠐⢕⠕⣡⣾⣶⣶⣶⣤⡁⢓⢕⠄⢑⢅⢑
-⠍⣧⠄⣶⣾⣿⣿⣿⣿⣿⣿⣷⣔⢕⢄⢡⣾⣿⣿⣿⣿⣿⣿⣿⣦⡑⢕⢤⠱⢐
-⢠⢕⠅⣾⣿⠋⢿⣿⣿⣿⠉⣿⣿⣷⣦⣶⣽⣿⣿⠈⣿⣿⣿⣿⠏⢹⣷⣷⡅⢐
-⣔⢕⢥⢻⣿⡀⠈⠛⠛⠁⢠⣿⣿⣿⣿⣿⣿⣿⣿⡀⠈⠛⠛⠁⠄⣼⣿⣿⡇⢔
-⢕⢕⢽⢸⢟⢟⢖⢖⢤⣶⡟⢻⣿⡿⠻⣿⣿⡟⢀⣿⣦⢤⢤⢔⢞⢿⢿⣿⠁⢕
-⢕⢕⠅⣐⢕⢕⢕⢕⢕⣿⣿⡄⠛⢀⣦⠈⠛⢁⣼⣿⢗⢕⢕⢕⢕⢕⢕⡏⣘⢕
-⢕⢕⠅⢓⣕⣕⣕⣕⣵⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣷⣕⢕⢕⢕⢕⡵⢀⢕⢕
-⢑⢕⠃⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⢕⢕⢕
-⣆⢕⠄⢱⣄⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢁⢕⢕⠕⢁
-"""
+            #gameplay_trial_instance.run_a_frame(win, 'noinput')
 
-            list = ascii_art.split("\n")  
+            nav_text = f"{tutorial.current_step + 1}/{len(tutorial.tutorial_steps)}|←: Back|→: Next|ESC: Exit"
+            if tutorial.current_step + 1 >9:
+                nav_text = f"{tutorial.current_step + 1}/{len(tutorial.tutorial_steps)}|←: Back|→: Next|ESC:Exit"
 
-            for dy,string in enumerate(list):     
-                win.addstr(y_ofst+dy,x_ofst,string,HIGHLIGHT_COLOR)
-            text = '⇧ (totally irrelavant)'
-            win.addstr(14,65-len(text),text)
+            nav_x = 2
 
-
+            try: #FIXED FR
+                win.addstr(SCREEN_HEIGHT - 1, nav_x+1, nav_text, TEXT_COLOR)
+            except: 
+                pass
 
             win.refresh()
 
-            key = win.getch()
+            #endregion
+            win.addstr(0,0,r""" Project OLED" Beta                                     A11 Software""")
 
-            if key == curses.KEY_RIGHT:# next page
-                tutorial.current_step += 1
-            elif key == 27:  # ESC to exit
-                return 0
-            
-
-
-        elif tutorial.current_step in (1,2,3):
-            win.nodelay(True)
-            if tutorial.current_step == 1: #initializes only once
-                try: _ = game_instance 
-                except NameError: 
-                    game_instance = game_nonblock(x_offset=0, y_offset=0)
-            elif tutorial.current_step == 2 and sum('00' == tile for line in game_instance.map_data for tile in line) == 0:
-                for boom in range(15): 
-                    game_instance.blow(random.randint(0, 14), random.randint(0, 14))
-                game_instance.flash_safe(win), win.refresh(); time.sleep(0.15)
+            if tutorial.current_step==0: #first step
+                win.nodelay(False)
+                for y in range(2,17):
+                    win.addstr(y,36,' '*30) #clears out the right panel
+                for y in range(15):    
+                    win.addstr(2+y,34," ")
+                    win.addstr(2+y,67,"│") #restores the overwritten lines
+                #main_menu.draw_logo(win,x_offset=33,y_offset=7)
 
 
-            while True: #this loop is broken out once per page change.
-                try: key = win.getch()
-                except: pass
-                if key!=-1: translated_key = chr(key)
-                else:translated_key='noinput'
-                game_instance.run_a_frame(win,translated_key)
+                y_ofst=3;x_ofst=32
+
+                ascii_art="""
+    ⢕⢕⢕⢕⠁⢜⠕⢁⣴⣿⡇⢓⢕⢵⢐⢕⢕⠕⢁⣾⢿⣧⠑⢕⢕⠄⢑⢕⠅⢕ 
+    ⢕⢕⠵⢁⠔⢁⣤⣤⣶⣶⣶⡐⣕⢽⠐⢕⠕⣡⣾⣶⣶⣶⣤⡁⢓⢕⠄⢑⢅⢑
+    ⠍⣧⠄⣶⣾⣿⣿⣿⣿⣿⣿⣷⣔⢕⢄⢡⣾⣿⣿⣿⣿⣿⣿⣿⣦⡑⢕⢤⠱⢐
+    ⢠⢕⠅⣾⣿⠋⢿⣿⣿⣿⠉⣿⣿⣷⣦⣶⣽⣿⣿⠈⣿⣿⣿⣿⠏⢹⣷⣷⡅⢐
+    ⣔⢕⢥⢻⣿⡀⠈⠛⠛⠁⢠⣿⣿⣿⣿⣿⣿⣿⣿⡀⠈⠛⠛⠁⠄⣼⣿⣿⡇⢔
+    ⢕⢕⢽⢸⢟⢟⢖⢖⢤⣶⡟⢻⣿⡿⠻⣿⣿⡟⢀⣿⣦⢤⢤⢔⢞⢿⢿⣿⠁⢕
+    ⢕⢕⠅⣐⢕⢕⢕⢕⢕⣿⣿⡄⠛⢀⣦⠈⠛⢁⣼⣿⢗⢕⢕⢕⢕⢕⢕⡏⣘⢕
+    ⢕⢕⠅⢓⣕⣕⣕⣕⣵⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣷⣕⢕⢕⢕⢕⡵⢀⢕⢕
+    ⢑⢕⠃⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⢕⢕⢕
+    ⣆⢕⠄⢱⣄⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢁⢕⢕⠕⢁
+    """
+
+                list = ascii_art.split("\n")  
+
+                for dy,string in enumerate(list):     
+                    win.addstr(y_ofst+dy,x_ofst,string,HIGHLIGHT_COLOR)
+                text = '⇧ (totally irrelavant)'
+                win.addstr(14,65-len(text),text)
+
+
+
                 win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
+
+                key = win.getch()
+
+                if key == curses.KEY_RIGHT:# next page
                     tutorial.current_step += 1
-                    break
                 elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1)
+                    return 0
+                
 
 
-        elif tutorial.current_step in (4,5):
-            win.nodelay(True)
-            if tutorial.current_step == 4: #initializes only once
-                allowed_ors=4
-                try: _ = or_trial_instance 
-                except NameError: 
-                    or_trial_instance = game_nonblock(x_offset=0, y_offset=0,designated_map=[['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '1','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']])
-            elif tutorial.current_step == 5 and sum('00' == tile for line in or_trial_instance.map_data for tile in line) == 0:
-                for _ in range(2): 
-                    try:    
-                        or_trial_instance.blow(*random.choice([(y,x) for y,row in enumerate(or_trial_instance.map_data) for x,item in enumerate(row) if item=='1']))
+            elif tutorial.current_step in (1,2,3):
+                win.nodelay(True)
+                if tutorial.current_step == 1: #initializes only once
+                    try: _ = game_instance 
+                    except NameError: 
+                        game_instance = game_nonblock(x_offset=0, y_offset=0)
+                elif tutorial.current_step == 2 and sum('00' == tile for line in game_instance.map_data for tile in line) == 0:
+                    for boom in range(15): 
+                        game_instance.blow(random.randint(0, 14), random.randint(0, 14))
+                    game_instance.flash_safe(win), win.refresh(); time.sleep(0.15)
+
+
+                while True: #this loop is broken out once per page change.
+                    try: key = win.getch()
                     except: pass
-                or_trial_instance.flash_safe(win), win.refresh(); time.sleep(0.15)
+                    if key!=-1: translated_key = chr(key)
+                    else:translated_key='noinput'
+                    game_instance.run_a_frame(win,translated_key)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1)
 
 
-            while True: #this loop is broken out once per page change.
-                try: key = win.getch()
-                except: pass
-                if key!=-1: translated_key = chr(key)
-                else:translated_key='noinput'
-                if translated_key=='n': 
-                    if allowed_ors>0:    
-                        allowed_ors-=1
-                    else: translated_key='noinput'
-                or_trial_instance.run_a_frame(win,translated_key)
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1)
-
-        elif tutorial.current_step in (6,7,8,9,10):
-            win.nodelay(True)
-            win.addstr(y,36,' '*30) #clears out the right panel
-            for y in range(15):    
-                win.addstr(2+y,34,"│");win.addstr(2+y,67,"│") #restores the overwritten lines
-            win.addstr(8,35,"─"*32)
-            text=' SYSTEM LOG '
-            win.addstr(8,(34+67)//2-len(text)//2+1,text)
-            win.addch(8,34,'├');win.addch(8,67,'┤')
-            win.addstr(10,36,'[!] This is where messages are')
-            win.addstr(11,36,'delivered!')
-
-            try: _ = time_zero
-            except NameError:
-                time_zero=time.monotonic()
-            while True:
-                try: key = win.getch()
-                except: pass
-                neg_time_passed = (time_zero-time.monotonic())
-                if neg_time_passed <-10:
-                    win.addstr(12,36,'[!] You might get some tips/')
-                    win.addstr(13,36,'tricks from us here as well!')
-                if neg_time_passed <-20:
-                    win.addstr(14,36,'[!] Enjoy the game!')
+            elif tutorial.current_step in (4,5):
+                win.nodelay(True)
+                if tutorial.current_step == 4: #initializes only once
+                    allowed_ors=4
+                    try: _ = or_trial_instance 
+                    except NameError: 
+                        or_trial_instance = game_nonblock(x_offset=0, y_offset=0,designated_map=[['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '1','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']])
+                elif tutorial.current_step == 5 and sum('00' == tile for line in or_trial_instance.map_data for tile in line) == 0:
+                    for _ in range(2): 
+                        try:    
+                            or_trial_instance.blow(*random.choice([(y,x) for y,row in enumerate(or_trial_instance.map_data) for x,item in enumerate(row) if item=='1']))
+                        except: pass
+                    or_trial_instance.flash_safe(win), win.refresh(); time.sleep(0.15)
 
 
-                win.addstr(2,36,'POWER DRAIN:')
-                win.addstr(4,36,'INTEGRITY INDEX:')
-                win.addstr(6,36,'ENERGY LOSS:')
-                score = int(neg_time_passed/2)*5
-                powr_tuple = (max(0,225*0.45+2*neg_time_passed),225)
-                crpt_tuple = (-time.monotonic()%10,10)
-                #if tutorial.current_step == 8:
-                    #crpt_tuple = ((4.51,10),(1.4,10))[time.monotonic()%1<0.5]
-                for y in (3,5):
-                    win.addstr(y, 36, '-'*30)
+                while True: #this loop is broken out once per page change.
+                    try: key = win.getch()
+                    except: pass
+                    if key!=-1: translated_key = chr(key)
+                    else:translated_key='noinput'
+                    if translated_key=='n': 
+                        if allowed_ors>0:    
+                            allowed_ors-=1
+                        else: translated_key='noinput'
+                    or_trial_instance.run_a_frame(win,translated_key)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1)
 
-                #region indicators
-                    #Power Drain (Grid) indicator
-                if powr_tuple[0] / powr_tuple[1] < 0.20:                      
-                    win.addstr(3, 36, '^'*(int(30 * (powr_tuple[0] / powr_tuple[1]))),curses.color_pair(1))
-                elif powr_tuple[0] / powr_tuple[1] < 0.40:
-                    win.addstr(3, 36, '^'*(int(30 * (powr_tuple[0] / powr_tuple[1]))),curses.color_pair(2)) 
-                elif powr_tuple[0] / powr_tuple[1] < 0.034: 
-                    win.addstr(3, 36, '-'*30,curses.color_pair(2))            
-                else:
-                    win.addstr(3, 36, '^'*(int(30 * (powr_tuple[0] / powr_tuple[1]))),curses.color_pair(3))
-                if time.monotonic()%1>0.5:     #Flashes if progress made
-                    win.addstr(3, 36+max(0,-1+int(30 * (powr_tuple[0] / powr_tuple[1]))),'█')
+            elif tutorial.current_step in (6,7,8,9,10):
+                win.nodelay(True)
+                win.addstr(y,36,' '*30) #clears out the right panel
+                for y in range(15):    
+                    win.addstr(2+y,34,"│");win.addstr(2+y,67,"│") #restores the overwritten lines
+                win.addstr(8,35,"─"*32)
+                text=' SYSTEM LOG '
+                win.addstr(8,(34+67)//2-len(text)//2+1,text)
+                win.addch(8,34,'├');win.addch(8,67,'┤')
+                win.addstr(10,36,'[!] This is where messages are')
+                win.addstr(11,36,'delivered!')
 
-
-        
-                #Corruption Countdown indicator
-                if crpt_tuple[0] / crpt_tuple[1] < 0.033:                   
-                    win.addstr(5, 36, '-'*30,curses.color_pair(3))          
-                elif crpt_tuple[0] / crpt_tuple[1] < 0.15: 
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(3))
-                elif crpt_tuple[0] / crpt_tuple[1] < 0.45:
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(2)) 
-                else:
-                    win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(1))
-                    
-                #Energy Loss (Counter) Indicator
-                if score in range(0,-501,-1):                                        
-                    win.addstr(7, 36, str(score),curses.color_pair(1)) #Green
-                elif score in range(-501,-1001,-1):
-                    win.addstr(7, 36, str(score),curses.color_pair(2)) #Yellow
-                else:
-                    win.addstr(7, 36, str(score),curses.color_pair(3)) #Red
-                if time.monotonic()%1<=0.5: #flashes
-                    win.addstr(7, 36, ' '*len(str(score)),curses.color_pair(1))
-                #endregion
-
-
+                try: _ = time_zero
+                except NameError:
+                    time_zero=time.monotonic()
+                while True:
+                    try: key = win.getch()
+                    except: pass
+                    neg_time_passed = (time_zero-time.monotonic())
+                    if neg_time_passed <-10:
+                        win.addstr(12,36,'[!] You might get some tips/')
+                        win.addstr(13,36,'tricks from us here as well!')
+                    if neg_time_passed <-20:
+                        win.addstr(14,36,'[!] Enjoy the game!')
 
 
+                    win.addstr(2,36,'POWER DRAIN:')
+                    win.addstr(4,36,'INTEGRITY INDEX:')
+                    win.addstr(6,36,'ENERGY LOSS:')
+                    score = int(neg_time_passed/2)*5
+                    powr_tuple = (max(0,225*0.45+2*neg_time_passed),225)
+                    crpt_tuple = (-time.monotonic()%10,10)
+                    #if tutorial.current_step == 8:
+                        #crpt_tuple = ((4.51,10),(1.4,10))[time.monotonic()%1<0.5]
+                    for y in (3,5):
+                        win.addstr(y, 36, '-'*30)
+
+                    #region indicators
+                        #Power Drain (Grid) indicator
+                    if powr_tuple[0] / powr_tuple[1] < 0.20:                      
+                        win.addstr(3, 36, '^'*(int(30 * (powr_tuple[0] / powr_tuple[1]))),curses.color_pair(1))
+                    elif powr_tuple[0] / powr_tuple[1] < 0.40:
+                        win.addstr(3, 36, '^'*(int(30 * (powr_tuple[0] / powr_tuple[1]))),curses.color_pair(2)) 
+                    elif powr_tuple[0] / powr_tuple[1] < 0.034: 
+                        win.addstr(3, 36, '-'*30,curses.color_pair(2))            
+                    else:
+                        win.addstr(3, 36, '^'*(int(30 * (powr_tuple[0] / powr_tuple[1]))),curses.color_pair(3))
+                    if time.monotonic()%1>0.5:     #Flashes if progress made
+                        win.addstr(3, 36+max(0,-1+int(30 * (powr_tuple[0] / powr_tuple[1]))),'█')
 
 
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1)
-        elif tutorial.current_step in (11,):
-            win.nodelay(True)
-            if tutorial.current_step == 11: #initializes only once
-                try: _ = sweeping_trial_instance 
+            
+                    #Corruption Countdown indicator
+                    if crpt_tuple[0] / crpt_tuple[1] < 0.033:                   
+                        win.addstr(5, 36, '-'*30,curses.color_pair(3))          
+                    elif crpt_tuple[0] / crpt_tuple[1] < 0.15: 
+                        win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(3))
+                    elif crpt_tuple[0] / crpt_tuple[1] < 0.45:
+                        win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(2)) 
+                    else:
+                        win.addstr(5, 36, '^'*(int(30 * (crpt_tuple[0] / crpt_tuple[1]))),curses.color_pair(1))
+                        
+                    #Energy Loss (Counter) Indicator
+                    if score in range(0,-501,-1):                                        
+                        win.addstr(7, 36, str(score),curses.color_pair(1)) #Green
+                    elif score in range(-501,-1001,-1):
+                        win.addstr(7, 36, str(score),curses.color_pair(2)) #Yellow
+                    else:
+                        win.addstr(7, 36, str(score),curses.color_pair(3)) #Red
+                    if time.monotonic()%1<=0.5: #flashes
+                        win.addstr(7, 36, ' '*len(str(score)),curses.color_pair(1))
+                    #endregion
+
+
+
+
+
+
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1)
+            elif tutorial.current_step in (11,):
+                win.nodelay(True)
+                if tutorial.current_step == 11: #initializes only once
+                    try: _ = sweeping_trial_instance 
+                    except NameError: 
+                        sweeping_trial_instance = game_nonblock(x_offset=0, y_offset=0,designated_map=[['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '11', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '00', '00', '00', '00'], ['0','0', '0', '0', '0', '0', '0', '0', '1', '0', '00', '00', '00', '1', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '1', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '1', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '00', '00', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '1'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '00', '00', '00', '00'], ['0', '0', '0', '0','0', '0', '0', '0', '1', '0', '0', '00', '1', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '0','0', '0', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00']])
+
+
+                while True: #this loop is broken out once per page change.
+                    try: key = win.getch()
+                    except: pass
+                    if key!=-1: translated_key = chr(key)
+                    else:translated_key='noinput'
+                    sweeping_trial_instance.run_a_frame(win,translated_key)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1)
+
+
+            elif tutorial.current_step in (12,13,14):
+                win.nodelay(True)
+                try: fast_playback
+                except NameError: fast_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Fast')
+                while True:
+                    try: key = win.getch()
+                    except: pass
+
+                    fast_playback.run_a_frame(win)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1/playback_speed)
+
+            elif tutorial.current_step in (15,16):
+                win.nodelay(True)
+                try: classic_playback
+                except NameError: classic_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Classic')
+                while True:
+                    try: key = win.getch()
+                    except: pass
+
+                    classic_playback.run_a_frame(win)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1/playback_speed)
+            elif tutorial.current_step in (17,18):
+                win.nodelay(True)
+                try: hardcore_playback
+                except NameError: hardcore_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Hardcore')
+                while True:
+                    try: key = win.getch()
+                    except: pass
+
+                    hardcore_playback.run_a_frame(win)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1/playback_speed)
+
+            elif tutorial.current_step in (19,20):
+                win.nodelay(True)
+                try: _ = tact1_game_instance 
                 except NameError: 
-                    sweeping_trial_instance = game_nonblock(x_offset=0, y_offset=0,designated_map=[['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '11', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '00', '00', '00', '00'], ['0','0', '0', '0', '0', '0', '0', '0', '1', '0', '00', '00', '00', '1', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '1', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '1', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '00', '00', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '1'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '00', '00', '00', '00'], ['0', '0', '0', '0','0', '0', '0', '0', '1', '0', '0', '00', '1', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '1', '0','0', '0', '00', '00', '00'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '00', '00']])
+                    tact1_game_instance = game_nonblock(x_offset=0, y_offset=0,designated_map=[['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '1', '1', '0', '1', '1', '0', '0', '0', '0', '0'], ['0', '0', '0', '0','1', '0', '0', '1', '0', '0', '1', '0', '0', '0', '0'], ['0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '1', '0', '0', '0', '1', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']])
+                while True: #this loop is broken out once per page change.
+                    try: key = win.getch()
+                    except: pass
+                    if key!=-1: translated_key = chr(key)
+                    else:translated_key='noinput'
+                    tact1_game_instance.run_a_frame(win,translated_key)
+                    win.refresh()
+                    if key == curses.KEY_LEFT:# previous page
+                        if tutorial.current_step > 0:
+                            tutorial.current_step -= 1
+                        break
+                    elif key == curses.KEY_RIGHT:# next page
+                        tutorial.current_step += 1
+                        break
+                    elif key == 27:  # ESC to exit
+                        return
+                    time.sleep(0.1)
+            
 
 
-            while True: #this loop is broken out once per page change.
-                try: key = win.getch()
-                except: pass
-                if key!=-1: translated_key = chr(key)
-                else:translated_key='noinput'
-                sweeping_trial_instance.run_a_frame(win,translated_key)
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1)
-
-
-        elif tutorial.current_step in (12,13,14):
-            win.nodelay(True)
-            try: fast_playback
-            except NameError: fast_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Fast')
-            while True:
-                try: key = win.getch()
-                except: pass
-
-                fast_playback.run_a_frame(win)
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1/playback_speed)
-
-        elif tutorial.current_step in (15,16):
-            win.nodelay(True)
-            try: classic_playback
-            except NameError: classic_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Classic')
-            while True:
-                try: key = win.getch()
-                except: pass
-
-                classic_playback.run_a_frame(win)
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1/playback_speed)
-        elif tutorial.current_step in (17,18):
-            win.nodelay(True)
-            try: hardcore_playback
-            except NameError: hardcore_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Hardcore')
-            while True:
-                try: key = win.getch()
-                except: pass
-
-                hardcore_playback.run_a_frame(win)
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1/playback_speed)
-
-        elif tutorial.current_step in (19,20):
-            win.nodelay(True)
-            try: _ = tact1_game_instance 
-            except NameError: 
-                tact1_game_instance = game_nonblock(x_offset=0, y_offset=0,designated_map=[['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '1', '1', '0', '1', '1', '0', '0', '0', '0', '0'], ['0', '0', '0', '0','1', '0', '0', '1', '0', '0', '1', '0', '0', '0', '0'], ['0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'], ['0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '1', '0', '0', '0', '1', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']])
-            while True: #this loop is broken out once per page change.
-                try: key = win.getch()
-                except: pass
-                if key!=-1: translated_key = chr(key)
-                else:translated_key='noinput'
-                tact1_game_instance.run_a_frame(win,translated_key)
-                win.refresh()
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-                time.sleep(0.1)
-        
-
-
-        elif tutorial.current_step == 120:
-            win.nodelay(False)
-            ascii_art = """
-\ \Q
-\ \Q
+            elif tutorial.current_step == 120:
+                win.nodelay(False)
+                ascii_art = """
     \ \Q
-    \/`\Q
-    |   \   _+,_Q
-    \   (_[____]_Q
-    '._|.-._.-._] ////////Q
-^^^^^^^^^^^^'-' '-'^^^^^^^^^^^"""    
-            list = ascii_art.split("Q")  
-            for dy,string in enumerate(list):     
-                win.addstr(5+dy,36,string.replace('\n',''))
-            win.refresh()
-            key = win.getch()
+    \ \Q
+        \ \Q
+        \/`\Q
+        |   \   _+,_Q
+        \   (_[____]_Q
+        '._|.-._.-._] ////////Q
+    ^^^^^^^^^^^^'-' '-'^^^^^^^^^^^"""    
+                list = ascii_art.split("Q")  
+                for dy,string in enumerate(list):     
+                    win.addstr(5+dy,36,string.replace('\n',''))
+                win.refresh()
+                key = win.getch()
 
-            if key == curses.KEY_LEFT:# previous page
-                if tutorial.current_step > 0:
-                    tutorial.current_step -= 1
-                break
-            elif key == curses.KEY_RIGHT:# next page
-                tutorial.current_step += 1
-                break
-            elif key == 27:  # ESC to exit
-                return
-
-
-        elif tutorial.current_step == 201:
-            win.nodelay(False)
-            for y in range(15):    
-                win.addstr(2+y,34," ")
-
-            x_ofst=3;y_ofst=38
-            ascii_art = """
-⢸⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢸⣿⣿⣿⣿⣿⣿⣿⣷⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⠀⠀⠀⠀⠀
-⢸⣿⣿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠀⠀⠀⠀⠀
-⢸⣿⡏⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀
-⢸⣿⠃⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀
-⢸⡟⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀
-⢸⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀
-⢸⠁⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀
-⠘⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀
-⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀
-⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠀⠀⠀⠀⠀
-"""
-            list = ascii_art.split("\n")  
-            for dy,string in enumerate(list):     
-                win.addstr(x_ofst+dy,y_ofst,string,HIGHLIGHT_COLOR)
-            win.refresh()
-            key = win.getch()
-
-            if key == curses.KEY_LEFT:# previous page
-                if tutorial.current_step > 0:
-                    tutorial.current_step -= 1
-                #break
-            elif key == curses.KEY_RIGHT:# next page
-                tutorial.current_step += 1
-                #break
-            elif key == 27:  # ESC to exit
-                return
-
-
-
-
-            
-            
-        else:
-            win.nodelay(False)
-            key = win.getch()
-
-            if key == curses.KEY_LEFT:# previous page
-                if tutorial.current_step > 0:
-                    tutorial.current_step -= 1
-                #break
-            elif key == curses.KEY_RIGHT:# next page
-                tutorial.current_step += 1
-                if tutorial.current_step==len(tutorial.tutorial_steps):return 0 
-                #break
-            elif key == 27:  # ESC to exit
-                return
-        #region what is this        
-        
-"""     
-       #if step.get("wait_for_move"):           
-                if key in map(ord,'wWaAsSdD'):#[ord("w"),ord("W"),ord("a"),ord("A"),ord("s"),ord("S"),ord("d"),ord("D")]:
+                if key == curses.KEY_LEFT:# previous page
+                    if tutorial.current_step > 0:
+                        tutorial.current_step -= 1
                     break
-                    
-            #elif step.get("wait_for_flip"):
-                if key in [ord("c"),ord("C")]:
+                elif key == curses.KEY_RIGHT:# next page
+                    tutorial.current_step += 1
                     break
-                    
-            #elif step.get("wait_for_move_and_flip"):
-                if key in [ord("c"),ord("C"),ord("w"),ord("W"),ord("a"),ord("A"),ord("s"),ord("S"),ord("d"),ord("D")]:
-                    movement = 0
-                    flipping = 0
-                    while movement < 2 or flipping < 2 :
-                        if key in [ord("w"),ord("W"),ord("a"),ord("A"),ord("s"),ord("S"),ord("d"),ord("D")]:
-                            movement += 1
-                        elif key in [ord("c"),ord("C")]:
-                            flipping += 1
-"""            #endregion
+                elif key == 27:  # ESC to exit
+                    return
 
+
+            elif tutorial.current_step == 201:
+                win.nodelay(False)
+                for y in range(15):    
+                    win.addstr(2+y,34," ")
+
+                x_ofst=3;y_ofst=38
+                ascii_art = """
+    ⢸⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⢸⣿⣿⣿⣿⣿⣿⣿⣷⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⠀⠀⠀⠀⠀
+    ⢸⣿⣿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠀⠀⠀⠀⠀
+    ⢸⣿⡏⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀
+    ⢸⣿⠃⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀
+    ⢸⡟⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀
+    ⢸⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀
+    ⢸⠁⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀
+    ⠘⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
+    ⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀
+    ⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀
+    ⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠀⠀⠀⠀⠀
+    """
+                list = ascii_art.split("\n")  
+                for dy,string in enumerate(list):     
+                    win.addstr(x_ofst+dy,y_ofst,string,HIGHLIGHT_COLOR)
+                win.refresh()
+                key = win.getch()
+
+                if key == curses.KEY_LEFT:# previous page
+                    if tutorial.current_step > 0:
+                        tutorial.current_step -= 1
+                    #break
+                elif key == curses.KEY_RIGHT:# next page
+                    tutorial.current_step += 1
+                    #break
+                elif key == 27:  # ESC to exit
+                    return
+
+
+
+
+                
+                
+            else:
+                win.nodelay(False)
+                key = win.getch()
+
+                if key == curses.KEY_LEFT:# previous page
+                    if tutorial.current_step > 0:
+                        tutorial.current_step -= 1
+                    #break
+                elif key == curses.KEY_RIGHT:# next page
+                    tutorial.current_step += 1
+                    if tutorial.current_step==len(tutorial.tutorial_steps):return 0 
+                    #break
+                elif key == 27:  # ESC to exit
+                    return
+        except curses.error: 
+            if not __name__ == "__main__": #tries to relaunch if not enough screen real estate
+                time.sleep(1);curses.wrapper(run_tutorial,win=win,playback_speed=playback_speed)
+            else: raise
 
 
 if __name__ == "__main__":
