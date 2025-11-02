@@ -47,8 +47,23 @@ def wait_for_key(win, ignore=(curses.KEY_RESIZE,)):
     finally:
         win.nodelay(True)                 
 
+def legit_override(selector,map,rim_min_norm_tile):
+    x=selector[0];y=selector[1]
+    normal_tiles=('0','1')
+    allowed=False
+    if x in (0,14):
+        x_norm_tiles = sum((line[x] in normal_tiles) for line in map)
+        if x_norm_tiles > rim_min_norm_tile:
+            allowed = True
+    elif y in (0,14):
+        y_norm_tiles = sum(tile in normal_tiles for tile in map[y])
+        if y_norm_tiles > rim_min_norm_tile:
+            allowed = True
+    else: allowed = True
+    return allowed
 
-def game(win,mode='classic',replay_mode=False,replay_file='Default.oled',enable_recording=True):
+
+def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_recording=True):
     game.mode = mode
     game.enablerecording = enable_recording
     game.replaymode=replay_mode
@@ -615,7 +630,10 @@ def game(win,mode='classic',replay_mode=False,replay_file='Default.oled',enable_
 
                     else:
                         message = syslog_appended("[!] No remaining Overrides.", message)                        
+                elif not legit_override(selector,map_data[:],rim_min_norm_tile=6): 
+                    message = syslog_appended(f"{'[!] Overflown!'}", message)
 
+                    pass
                 elif game.mode in ('hardcore','standard'):
                     if integrity_tuple[0] / integrity_tuple[1] < 0.15: 
                         message = syslog_appended("[!] Insufficient integrity. Can't override.", message) 
