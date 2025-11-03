@@ -18,6 +18,7 @@ def demo_browser(win,max_entries=12,demo_directory=os.getcwd()):
                 next(demo)
                 demo_dict[file]=(list((line,line[:-1])[line.endswith('\n')] for line in demo.readlines()))
     demo_list_full = list(demo_dict.keys())
+    demo_list_full.sort(key=lambda name:demo_dict[name][2],reverse=True) #Sort by time now
     win.erase()
     curses.curs_set(0)
     win.nodelay(False)  
