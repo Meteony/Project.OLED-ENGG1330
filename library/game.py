@@ -124,7 +124,6 @@ def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_reco
 
         while True:
             tick += 1
-
             try: #<------Matches the tick to see if there's stored data for this frame
                 #Format:
                 # [key,selector,(map_data),(powr_tuple),(crpt_tuple),score,message,lwst_powr_tuple_rc]
@@ -187,7 +186,12 @@ def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_reco
                 win.addstr(0, 68-len(timestamp), timestamp)
 
                 __title_element__ = f"{demo_playername} - {game.mode.capitalize()} [{demo_score}]" 
-                win.addstr(1, 0, f" {' - - ─  ────────── '+__title_element__+' ──────────  ─ - - ':^67}")
+                title_full =  f" {' - - ─  ────────── '+__title_element__+' ──────────  ─ - - ':^67}"
+                win.addstr(1, 0,title_full)
+                win.addstr(1, 1,title_full[1:
+                                           round(len(title_full)*tick/demo_score_n_time[1])
+                                           ],curses.A_REVERSE)
+
                 for y in range(15): #Draws the interface
                     win.addstr(2 + y, 0, " │ ")
                     current_line_rendered = 3
@@ -250,8 +254,8 @@ def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_reco
                         icon = '>>'
                     else: icon = '<<'
                     text = f' {icon}{replay_rate}x '
-                    win.addstr(16, 67-len(text),text,curses.A_DIM|curses.A_BOLD|curses.A_BOLD|curses.A_BOLD|curses.A_BOLD)
-                    if time.monotonic()%3<=2:
+                    win.addstr(16, 67-len(text),text,curses.A_BOLD|curses.A_BOLD|curses.A_BOLD|curses.A_BOLD)
+                    if False:#time.monotonic()%3<=2 and replay_rate>=1:
                         win.addstr(16, 67-len(text),' '*len(text))
                       
      
@@ -298,13 +302,13 @@ def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_reco
                 elif replay_control in ('-',',','KEY_LEFT'):
                     if replay_rate>1:    
                         replay_rate = max(1.0,replay_rate-1.0)
-                    else:
+                    elif replay_rate>=0.5:
                         replay_rate/=2.0
             except curses.error: pass         
 
             win.noutrefresh() # <------------- show changes
             curses.doupdate() 
-            time.sleep(0.1/replay_rate)
+            time.sleep(0.1/abs(replay_rate))
 
     else: #<------------------------------------------Normal/Rec-enabled gameplay
         curses.curs_set(0)
