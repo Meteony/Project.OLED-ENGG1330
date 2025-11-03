@@ -524,23 +524,23 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
 
             #region --------------------------------Demo Cache------------------------------------------
             if getattr(game,"enablerecording", False): #<------------Caches the demo
-                try: _ = game.rec
-                except: game.rec=dict()
-                try: _ = game.last_cached_stats 
-                except:  game.last_cached_stats =dict()
+                try: _ = rec
+                except: rec=dict()
+                try: _ = last_cached_stats 
+                except:  last_cached_stats =dict()
                 steps = 60
                 integrity_tuple_rounded = ((integrity_tuple[1]/steps)*
                                     round(60*integrity_tuple[0]/integrity_tuple[1]),
                                     integrity_tuple[1])
                 next_set_of_stats = []
                 for id, value in enumerate((key,(selector[:]),str(map_data[:]),(powr_tuple),(integrity_tuple_rounded),score,message,lwst_powr_tuple_rc)):
-                    if value not in game.last_cached_stats.values():
-                        game.last_cached_stats[id] = value
+                    if value not in last_cached_stats.values():
+                        last_cached_stats[id] = value
                         next_set_of_stats.append(value)
                     else:
                         next_set_of_stats.append(None)
                 if any(next_set_of_stats):    
-                    game.rec[tick]=tuple(next_set_of_stats)
+                    rec[tick]=tuple(next_set_of_stats)
                 
                     
                 #Should be executed before the game ends to not miss the last tick hence the cache
@@ -565,7 +565,7 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
                     )
 
                     with open(demo_dir+game.saved_demo_name,'w',encoding="utf-8") as file: 
-                        file.write(f"{str(game.rec)}\n")
+                        file.write(f"{str(rec)}\n")
                         file.write(f"{str(game.mode)}\n")
                         try:    
                             file.write(f"{str(getpass.getuser())}\n")
