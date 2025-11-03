@@ -63,13 +63,17 @@ def legit_override(selector,map,rim_min_norm_tile):
     return allowed
 
 
-def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_recording=True):
+def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_recording=True):
+    for attr in ('replayfile','replaymode','mode','finalstats','newhighscore'):
+        if hasattr(game,attr):
+            delattr(game,attr)
+    
+    game.player_id=getpass.getuser()
     game.mode = mode
     game.enablerecording = enable_recording
     game.replaymode=replay_mode
     if replay_mode: game.replayfile=replay_file
 
-    game.player_id=getpass.getuser()
     tile_texture_mapping = {
             "1": "██",  #ON
             "0": "░░",  #OFF
@@ -77,7 +81,7 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
             '11': "!!"
         }
     if getattr(game,"replaymode",False):  #<--------------------------Replay mode      
-            
+        replay_rate=1.0
         curses.curs_set(0)
         win.nodelay(True)
         win.keypad(True)
@@ -101,13 +105,13 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
 
         ######################################################## <-----------Reads in the demo
         with open(demo_dir+game.replayfile,'r',encoding="utf-8") as demo:
-            game.demo = ast.literal_eval(demo.readline())
+            demo_data = ast.literal_eval(demo.readline())
             game.mode=str(demo.readline())[:-1] #<---Cuts off the \n
-            game.player=str(demo.readline())[:-1]
-            game.time=str(demo.readline())[:-1]
-            game.demostats = ast.literal_eval(demo.readline())
-            game.demoscore = game.demostats[0]
-        tick=min(game.demo)-1; key='noinput' #Skips to the first tick with data in demo, sets key to default
+            demo_playername=str(demo.readline())[:-1]
+            demo_created_time=str(demo.readline())[:-1]
+            demo_score_n_time = ast.literal_eval(demo.readline())
+            demo_score = demo_score_n_time[0]
+        tick=min(demo_data)-1; key='noinput' #Skips to the first tick with data in demo, sets key to default
         #########################################################
         
         powr_tuple = (225, 225) #Safe default states for the playback
@@ -124,7 +128,7 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
             try: #<------Matches the tick to see if there's stored data for this frame
                 #Format:
                 # [key,selector,(map_data),(powr_tuple),(crpt_tuple),score,message,lwst_powr_tuple_rc]
-                fetched_stat = game.demo[tick]
+                fetched_stat = demo_data[tick]
                 if fetched_stat[0]!=None:
                     key = fetched_stat[0]
                 if fetched_stat[1]!=None:
@@ -179,10 +183,10 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
             ######################DISPLAY BELOW###################################
             try:
                 win.addstr(0, 1, f"{'Pos: '+str(selector)+' |'+' Key: '+str(key):<66}")
-                timestamp=f'Replay from {game.time}'
+                timestamp=f'Replay from {demo_created_time}'
                 win.addstr(0, 68-len(timestamp), timestamp)
 
-                __title_element__ = f"{game.player} - {game.mode.capitalize()} [{game.demoscore}]" 
+                __title_element__ = f"{demo_playername} - {game.mode.capitalize()} [{demo_score}]" 
                 win.addstr(1, 0, f" {' - - ─  ────────── '+__title_element__+' ──────────  ─ - - ':^67}")
                 for y in range(15): #Draws the interface
                     win.addstr(2 + y, 0, " │ ")
@@ -241,7 +245,16 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
                 if game.mode == 'classic': #Hide irrelevant indicators in classic mode                
                     win.addstr(2, 36,f'{"PROGRESS:":<30}')
                     win.addstr(4, 36,f'{"REMAINING OVERRIDES:":<30}')
-
+                if True:#replay_rate != 1:
+                    if replay_rate>=1:
+                        icon = '>>'
+                    else: icon = '<<'
+                    text = f' {icon}{replay_rate}x '
+                    win.addstr(16, 67-len(text),text,curses.A_DIM|curses.A_BOLD|curses.A_BOLD|curses.A_BOLD|curses.A_BOLD)
+                    if time.monotonic()%3<=2:
+                        win.addstr(16, 67-len(text),' '*len(text))
+                      
+     
             except:
                 pass
 
@@ -249,8 +262,8 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
     ###################################################################################
 
 
-            if tick>=max(game.demo):    #<--------End-of-replay detection
-                game.finalstats = tuple(game.demostats)
+            if tick>=max(demo_data):    #<--------End-of-replay detection
+                game.finalstats = tuple(demo_score_n_time)
                 for _ in range(3):  #<--End game flash anis
                     win.erase(); win.refresh()  #Clears the screen
                     flash_safe(win)
@@ -270,25 +283,28 @@ def game(win,mode='fast',replay_mode=False,replay_file='Default.oled',enable_rec
                     win.noutrefresh(); curses.doupdate()
                     time.sleep(0.25)
                     wait_for_key(win)   #Actually Halts the program
-                    """
-                    while True: # Also halts the program but while burning your CPU
-                        try: 
-                            if win.getkey() != 'KEY_RESIZE': break
-                        except curses.error: pass   
-                    """
                 elif replay_control == 'k': #<----------Kills the replay
-                    game.finalstats = tuple(game.demostats); game.skipcutscene = True
+                    game.finalstats = tuple(demo_score_n_time); game.skipcutscene = True
                     for _ in range(3):  #<--End game flash anis
                         win.erase(); win.refresh() #Clears the screen
                         flash_safe(win)
                         time.sleep(0.15)
-                    break         #<---------------------------------------------------------------Breaks main loop
-
+                    return {'finalstats':demo_score_n_time,'skipcutscene':game.skipcutscene}         #<---------------------------------------------------------------Breaks main loop
+                elif replay_control in ('=','.','KEY_RIGHT'):
+                    if replay_rate>=1:    
+                        replay_rate+=1.0
+                    else: 
+                        replay_rate*=2.0
+                elif replay_control in ('-',',','KEY_LEFT'):
+                    if replay_rate>1:    
+                        replay_rate = max(1.0,replay_rate-1.0)
+                    else:
+                        replay_rate/=2.0
             except curses.error: pass         
 
             win.noutrefresh() # <------------- show changes
             curses.doupdate() 
-            time.sleep(0.1)
+            time.sleep(0.1/replay_rate)
 
     else: #<------------------------------------------Normal/Rec-enabled gameplay
         curses.curs_set(0)
