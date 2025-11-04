@@ -63,7 +63,7 @@ def legit_override(selector,map,rim_min_norm_tile):
     return allowed
 
 
-def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_recording=True):
+def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable_recording=False):
     for attr in ('replayfile','replaymode','mode','finalstats','newhighscore'):
         if hasattr(game,attr):
             delattr(game,attr)
@@ -348,14 +348,20 @@ def game(win,mode='fast',replay_mode=True,replay_file='Default.oled',enable_reco
             max_per_2s_score_pen = 10 # Expected gameplay circa 3mins
             per_rem_tile_score_pen=350
         elif game.mode == 'hardcore':
-            for _ in range(6):
+            for _ in range(3):
                 blow(random.randint(0, 14), random.randint(0, 14), map_data)
+            for _ in range(3):
+                blow(random.randint(2, 12), random.randint(2, 12), map_data)
+
             powr_loss_rate = 7  #6 blows for hardcore. 
             max_per_2s_score_pen = 15
             per_rem_tile_score_pen=350
         else:  #Fast mode
-            for _ in range(15):     #15 for fast
+            for _ in range(12):     #15 for fast
+                blow(random.randint(2, 12), random.randint(2, 12), map_data)
+            for _ in range(3):     #15 for fast
                 blow(random.randint(0, 14), random.randint(0, 14), map_data)
+
             powr_loss_rate = 10 #Higher rate for fast
             max_per_2s_score_pen = 15
             per_rem_tile_score_pen=350
