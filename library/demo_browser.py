@@ -31,7 +31,7 @@ def demo_browser(win,max_entries=12,demo_directory=os.getcwd()):
     cursor_position = 0
     while True:
         win.erase()
-        win.addstr(0,0,r""" Project OLED" Beta                                     A11 Software""")
+        win.addstr(0,0,r""" Project OLED"                                          A11 Software""")
         __title_element__ = "Demo Browser" 
         win.addstr(1, 0, f" {' '+__title_element__+' ':─^67} ")
         demo_list_truncated = demo_list_full[max_entries*page:max_entries*(page+1)]

@@ -52,7 +52,7 @@ def highscore_browser(win,max_entries=7,enableconnectivity=True):
         __title_element__ = "History" 
         win.addstr(6, 0, f" {' '+__title_element__+' ':─^67} ")
         sboard_entries_truncated = sboard_entries_full[max_entries*page:max_entries*(page+1)]
-        win.addstr(0,0,r""" Project OLED" Beta                                     A11 Software""")
+        win.addstr(0,0,r""" Project OLED"                                          A11 Software""")
 
         for line,entry in list(enumerate(highscores))+list(enumerate(sboard_entries_truncated,start=5)):
             mode_truncated = '['+entry[0][0].upper()+']' #mode

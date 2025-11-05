@@ -646,7 +646,6 @@ class GameTutorial:
                     " > Use Overrides sparingly",
                     " > Press [K] once done",
                     "                          ",
-                    "Continued on Next Page..."
                 ],
                 
             },
@@ -775,7 +774,7 @@ def run_tutorial(win,playback_speed=2.5):
             win.refresh()
 
             #endregion
-            win.addstr(0,0,r""" Project OLED" Beta                                     A11 Software""")
+            win.addstr(0,0,r""" Project OLED"                                          A11 Software""")
 
             if tutorial.current_step==0: #first step
                 win.nodelay(False)
