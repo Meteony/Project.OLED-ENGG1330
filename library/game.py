@@ -63,7 +63,7 @@ def legit_override(selector,map,rim_min_norm_tile):
     return allowed
 
 
-def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable_recording=False):
+def game(win,mode='standard',replay_mode=False,replay_file='Default.oled',enable_recording=False):
     for attr in ('replayfile','replaymode','mode','finalstats','newhighscore'):
         if hasattr(game,attr):
             delattr(game,attr)
@@ -340,20 +340,27 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
             game.mode='hardcore'
 
         if game.mode=='classic': #Mode-specific settings
-            powr_loss_rate = 0
+            extra_powr_loss_rate = 0
             max_per_2s_score_pen = 2 # Basically timer. -150 in 3mins
             per_rem_tile_score_pen = 125 #Allows for a few tiles
         elif game.mode=='standard':
-            powr_loss_rate = 2
-            max_per_2s_score_pen = 10 # Expected gameplay circa 3mins
+            extra_powr_loss_rate = 0.5
+            max_per_2s_score_pen = 5 # Expected gameplay circa 3mins
             per_rem_tile_score_pen=350
+            per_crpt_score_pen=75   
+
+            for _ in range(12):     
+                blow(random.randint(2, 12), random.randint(2, 12), map_data)
+            for _ in range(3):    
+                blow(random.randint(0, 14), random.randint(0, 14), map_data)
+
         elif game.mode == 'hardcore':
             for _ in range(3):
                 blow(random.randint(0, 14), random.randint(0, 14), map_data)
             for _ in range(3):
                 blow(random.randint(2, 12), random.randint(2, 12), map_data)
 
-            powr_loss_rate = 7  #6 blows for hardcore. 
+            extra_powr_loss_rate = 7  #6 blows for hardcore. 
             max_per_2s_score_pen = 15
             per_rem_tile_score_pen=350
         else:  #Fast mode
@@ -362,7 +369,7 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
             for _ in range(3):     #15 for fast
                 blow(random.randint(0, 14), random.randint(0, 14), map_data)
 
-            powr_loss_rate = 10 #Higher rate for fast
+            extra_powr_loss_rate = 10 #Higher rate for fast
             max_per_2s_score_pen = 15
             per_rem_tile_score_pen=350
 
@@ -436,7 +443,10 @@ def game(win,mode='hardcore',replay_mode=False,replay_file='Default.oled',enable
                     lwst_powr_tuple_rc = powr_tuple[0]
                     integrity_tuple=(min(integrity_tuple[0]+adder,900),900)
                 else: #Gradual Corruption
-                    integrity_tuple = (integrity_tuple[0]-1*int(game.mode != 'classic')-(powr_loss_rate*powr_tuple[0]/powr_tuple[1]),integrity_tuple[1]) #Crank up 19 to reach the ending screen quick
+                    if game.mode != 'classic':
+                        integrity_tuple = (integrity_tuple[0]
+                                           -1
+                                           -(extra_powr_loss_rate*powr_tuple[0]/powr_tuple[1]),integrity_tuple[1]) #Crank up 19 to reach the ending screen quick
             except: #Probably first few ticks. Bug prevention
                 lwst_powr_tuple_rc = powr_tuple[0]
                 integrity_tuple=(910,900)

@@ -1160,6 +1160,8 @@ def run_tutorial(win,playback_speed=2.5):
             if not __name__ == "__main__": #tries to relaunch if not enough screen real estate
                 time.sleep(1);curses.wrapper(run_tutorial,win=win,playback_speed=playback_speed)
             else: raise
+    win.nodelay(True)
+    return
 
 
 if __name__ == "__main__":
