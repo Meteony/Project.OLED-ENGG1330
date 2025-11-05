@@ -19,13 +19,8 @@ def url_read():        #<----- Reads the url file
         return 0
     except: 
         return 1
-"""
-# === REPLACE THESE TWO WITH YOURS ===
-CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMS4ZwBmhCQyzVqSZUPSY0a74xzMvGRW7mbZ0uUr0QJcFRk5laKk7f1xFGy48HeDgZ9SXwq5ndSncW/pub?output=csv"
-FORM_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfkyVog9TSPtJ6wfPhtAIhneYAkfuLYFR_2q6RoEh1YoY4mSQ/formResponse"
-FIELD_NAME = "entry.1941485989"  # the name for your "payload" field
-# ===================================
-"""
+    
+    
 def read_scoreboard_as_string():
     """Fetch the published CSV and join all payload cells into one long string."""
     with urllib.request.urlopen(url_read.CSV_URL, timeout=10) as resp:
