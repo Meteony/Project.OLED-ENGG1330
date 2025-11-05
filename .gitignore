@@ -5,3 +5,4 @@ __pycache__/
 library/__pycache__/
 Saved Demos/
 Debug Scripts/
+.gitignore

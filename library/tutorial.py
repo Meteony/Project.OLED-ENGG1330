@@ -315,23 +315,42 @@ class GameTutorial:
         self.current_step = 0
         self.tutorial_steps = [
             {
-                "title": "WELCOME ABOARD",
+                "title": "WELCOME",
                 "content": [
                     "                         ",
-                    '''Welcome to Project OLED"! ''',
-                    "A 15x15 action/logic puzzler.",
-                    "                         ",
-                    "This tutorial shows:",
-                    "• Controls & Tiles",
-                    "• Flip & Override",
-                    "• Integrity/Drain bars",
-                    "• Energy Loss scoring",
-                    "• Modes + replay",
-                    "• Tips & strats"
+                    '''Hello from Project OLED"! ''',
+                    " ",
+                    "Ever heard of lightout, the",
+                    "puzzle game classic?  ",
+                    " ",
+                    "Pfft. Actually that game's very",
+                    "boring-aah (if you know).",
+                    "Worry not - this game ain't it.",
+                    " ",
+                    "This tutorial covers:",
                 ],
                 "wait_for_move": False,
                 "wait_for_flip": False,
                 "wait_for_move_and_flip": False
+            },
+            {
+                "title": "FIRST AND FOREMOST...",
+                "content": [
+                    "• Objective:",
+                    "See those bright ■ tiles?",
+                    'Flick them off. FAST.',
+                    "                            ",
+                    '• ...how? (Press B):',
+                    'Center, up, down, left, right.',
+                    "No diagonals - see how those",
+                    "5 tiles are being toggled.",
+                    "                           ",
+                    "• ...but I □>■'ed!",
+                    "Be smart with your moves,",
+                    "avoid undoing your progress.",
+                    "                            ",
+                ],
+                
             },
             {
                 "title": "BASIC CONTROLS",
@@ -341,52 +360,34 @@ class GameTutorial:
                     "Move: [W][A][S][D]",
                     "                         ",
                     "Flip: [B]  (+ cross, 5 tiles)",
-                    "      > toggles ■ <> □",
+                    "      *toggles ■ <> □",
                     "                         ",
                     "Override: [N] > [!!] (perma)",
-                    "                         ",
+                    "          *special skill",
+                    " ",
                     "End: [K]    Pause: [M]",
                     "                         ",
                     "Try them on the right.",
-                    "Bars are off in this trial."
+                    ""
                     ],
             
             },
             {
                 "title": "TYPES OF TILES (BOOM):",
                 "content": [
-                    "(see that? these're corruption)",
-                    "Tile types:",
+                    "4 tile types:",
                     "                            ",
                     '"ON": ■',
                     '"OFF": □',
                     "                            ",
-                    '"Corruption": [XX]',
-                    "(Permanent OFF tile)",
-                    "                            ",
                     '"Override": [!!]',
-                    "(Another perma. OFF tile)"
+                    '"Corruption": [XX]',
+                    "(Permanent OFF tiles)",
+                    " ",
+                    "*You can hide ■'s in the last",
+                    " two"
                 ],
             
-            },
-            {
-                "title": "BASIC GAME RULES:",
-                "content": [
-                    "• Objective:",
-                    "Convert the most tiles to",
-                    '"OFF" (no ■), FAST.',
-                    "                            ",
-                    '• Flip affects a plus:',
-                    'Center, up, down, left, right.',
-                    "No diagonals.",
-                    "                           ",
-                    "• States are toggled: (■< >□)",
-                    "Be smart with your moves,",
-                    "avoid undoing your progress.",
-                    "                            ",
-                    "Continued on Next Page..."
-                ],
-                
             },
              {
                 "title": "OVERRIDE [N] (TRIAL)",
@@ -400,12 +401,13 @@ class GameTutorial:
                     "In full game it costs",
                     "Integrity (details next).",
                     " ",' ',
-                    "Try [N] now (aim at ■)."
+                    "Try [N] now (aim at ■).",
+                    " *You have four [N] here",
                 ],
                 
             },
              {
-                "title": "WHAT CORRUPTION DOES",
+                "title": "MORE ON CORRUPTION",
                 "content": [
                 "• When:",
                 "Integrity hits 0:",
@@ -413,12 +415,12 @@ class GameTutorial:
                 "convert to [XX].",
                 ' ',
                 "• Why:",
-                "Speeds up the game (don't",
-                "need to deal with [XX])",
+                "Annoying ■ are then gone",
+                "forever. (>>[XX] now)",
                 ' ',
-                "• Penalty: ",
+                "• ...not all free: ",
                 "-150 energy per occurance.",
-                ' ',
+                " *free ones preexist on map",
                 ],
                 
             },
@@ -442,27 +444,26 @@ class GameTutorial:
             {
                 "title": "BARS & OVERRIDE",
                 "content": [
-                    " ",
                     "• Power Drain:",
                     "Drain starts ~50% and",
                     "drops as you clear ■.",
-                    "Higher = faster score loss;",
+                    "Higher = faster score loss.",
                     " ",
                     "• Integrity Index:",
                     "Decays over time (faster",
                     "when Power Drain is high).",
                     " ", 
                     "Refills as you clear ■",
-                    '(25% each reduction)',
+                    '(+25% each time)',
 
-                    "                            >>"
+                    "Continued on Next Page..."
                 ],
                 
             },
             {
                 "title": "BARS & OVERRIDE",
                 "content": [
-                    "• Integrity Index:",
+                    "• Still Integrity Index:",
                     "Needed for [N] (req. ≥45%).",
                     "Using [N] -> resets to 15%.",
                     "(Green: ≥45%; Red: ≤15% )",
@@ -477,31 +478,37 @@ class GameTutorial:
                 
             },
             {
-                "title": "SCORING: TIME",
+                "title": "SCORING(ENERGY): TIME",
                 "content": [
-                    "• Energy Loss: ",
-                    "lower is better",
+                    "Starts from 0.",
+                    "Lower is better.",
+                    "(==faster/less [XX] gen'ed)",
                     " ",
-                    "Timed loss every ~2s:",
-                    "Fast/Hardcore: 15 x Drain",
-                    "Classic: 2 x Drain",
-                    "(~1 pt/2s at start)",
+                    "Timed loss every 2s:",
+                    " ",
+                    "> Fast/Hardcore: 15 x Drain",
+                    "> Classic: 2 x Drain",
+                    "  (~1 pt/2s)",
                     " ",
                 ],
                 
             },
 
             {
-                "title": "SCORING: ENDING",
+                "title": "SCORING: CORRUPTION",
                 "content": [
-                    "When you press [K] to end:",
-                    "Fast/Hardcore:",
-                    "  +350 per remaining ■",
-                    "Classic:",
-                    "  +125 per remaining ■",
+                    "When a ■ explodes:",
                     " ",
-                    "Classic plan: reach 2-3 ■,",
-                    "then submit to cap time."
+                    "Fast/Hardcore:",
+                    "  -150 per ■",
+                    " ",
+                    "Slow Mo':",
+                    "  -75 per ■",
+                    " ",
+                    "This is so that you rely less",
+                    "on generating [XX].",
+                    " ",
+                    "(Use [N]/existing [XX] instead)"
                 ],
                 
             },
@@ -510,15 +517,16 @@ class GameTutorial:
                 "content": [
                     "Sweeping drill:",
                     " ",
-                    "Use + flips to push ■",
+                    "Use + flips to move ■",
                     "line-by-line into sinks:",
                     "[XX] and [!!].",
+                    "(core strat in the full game)",
+
                     " ",
-                    "This is a core strat that",
-                    "helps you tackle clingy ■",
-                    "with ease",
-                    "(used a lot in the full",
-                    "game).               ",
+                    "Hint: Watch how ■ moves",
+                    " ",
+                    "Also hint: Use the tip of",
+                    "your +",
                 ],
                 
             },
@@ -530,14 +538,14 @@ class GameTutorial:
                     "The game has 3 unique flavors:",
                     "                          ",
                     "• Fast Mode (FW!!!)",
-                    "• Classic Mode (Depression)",
                     "• Hardcore Mode (Harder Fast)",
+                    "• Classic Mode (Depression)",
                     "                          ",
                     "Note: scoring/expected play",
                     "-style can vary depending on",
                     "the gamemode.",
                     "                          ",
-                    "Continued on Next Page..."
+                    " ",
                 ],
                 
             },
@@ -545,17 +553,52 @@ class GameTutorial:
                 "title": "MODES:",
                 "content": [
                     "• Fast Mode",
-                    "Cons: ",
-                    "  > Fastest inte. degredation",
-                    "    - explosions come fast",
-                    "  > Fastest timed score drop",
-                    "    - better be quick!",
-                    "                          ",
+                    "Feature:",
+                    " ",
+                    "  > Play QUICK!",
+                    "  > Use these existing [XX]!",
+                    "  > Annihilate ■ with your",
+                    "    overrides [N]!",
+                    " ",
+                    "    (watch the replay)",
+                    " ",
+                    " ",
+                    "Continued on Next Page..."
+
+                ]
+             },
+            {
+                "title": "MODES:",
+                "content": [
+                    "• Fast Mode",
                     "Pros:",
                     "  > Starts w/ the most",
                     "    perma-off [XX] tiles",
                     "    - less ON tiles to deal",
                     "    with yourself (++++)",
+                    "                          ",
+                    "Cons: ",
+                    "  > Fastest inte. degredation",
+                    "    - explosions come fast",
+                    "  > Fastest timed score drop",
+                    "                          ",
+                    
+                ],
+                
+            },
+            {
+                "title": "MODES:",
+                "content": [
+                    "• Hardcore Mode",
+                    "Feature: ",
+                    " ",
+                    "  > Less free [XX] now",
+                    "  > Use overrides to build up",
+                    "    your own bastion!",
+                    '  > More strat, more planning',
+                    "  > Harder than Fast ",
+                    " ",
+                    " ",
                     "                          ",
                     "Continued on Next Page..."
                     
@@ -565,25 +608,31 @@ class GameTutorial:
             {
                 "title": "MODES:",
                 "content": [
-                    "• Fast Mode",
-                    "Note:",
-                    "  > You're not expected to ",
-                    "    quit by pressing [K] in",
-                    "    modes outside than Classic",
-                    "    (Up to 350pts per tile!)"
+                    "• Hardcore Mode",
+                    "(Hey you. Watch the replays)",
+                    " ",
+                    "  > Slightly less costly    ",
+                    "    overrides.            ",
+                    "                          ",
+                    "                          ",
+                    "                            ",
                 ]
              },
             {
                 "title": "MODES:",
                 "content": [
                     "• Classic Mode",
-                    "A purists' puzzle solving",
+                    "A purists' puzzle solving.",
+                    " ",
                     " > 3 Override chances.",
                     " > No [XX]/[!!] at start.",
                     " > Timed loss: 2 x Drain",
                     "   (~1 pt/2s at start).",
                     " > Ending: +125 per ■.",
                     " ",
+                    " ",
+                    " ",
+
                     "Continued on Next Page..."
                 ],
                 
@@ -602,51 +651,18 @@ class GameTutorial:
                 
             },
 
-            {
-                "title": "MODES:",
-                "content": [
-                    "• Hardcore Mode",
-                    "  > Basically Fast Mode",
-                    "  > Starts with way less [XX]",
-                    "    tiles - as I said, corrup",
-                    "    -tion tiles are there to",
-                    '    help you.',
-                    "    (nobody believed me)",
-                    "  > Harder. ",
-                    "    You can't as easily sweep",
-                    "    all your remaining ONs",
-                    "    under the [XX]s. ",
-                    "    ",
-                    "                          ",
-                    "Continued on Next Page..."
-                    
-                ],
-                
-            },
-            {
-                "title": "MODES:",
-                "content": [
-                    "• Hardcore Mode",
-                    "  > Slightly less costly    ",
-                    "    overrides.            ",
-                    "                          ",
-                    "                          ",
-                    "                            ",
-                    "Continued on Next Page..."
-                ]
-             },
              {
                  "title": "FINAL WORDS",
                 "content": [
                     "  > Again, thank you again",
                     "    for playing. A LOT of  ",
-                    "    thoughts were put into ",
-                    "    this this to make it ",
-                    "    happen.                ",
+                    "    thoughts and work were",
+                    "    put into this this to ",
+                    "    make it happen.      ",
                     " ",
                     "  > A saved demo is randomly",
                     '    loaded from disk and shown',
-                    "    on the main menu.       ",
+                    "    on the main menu screen.",
                     "               ",
                     '  > Demo Recording can be',
                     '    turned on in Settings.'
@@ -658,11 +674,10 @@ class GameTutorial:
                     "  > Recorded Demos are saved to",
                     '    your "Saved Demos" folder,',
                     "    and accessible thru the",
-                    '''    Demo Browser (main''',
-                    '    menu)',
+                    '''    Demo Browser (main menu)''',
                     ' ',
                     "  > A cloud scoreboard feature",
-                    "    is available fpr users with",
+                    "    is available for users with",
                     '    a working internet connect',
                     "    -ion and a valid url file. ",
                     ' ',
@@ -674,11 +689,16 @@ class GameTutorial:
             {
                 "title": "Tutorial Complete!",
                 "content": [
+                    " ",
                     "Congratulations!",
-                    "You completed the tutorial!",
+                    "You completed the tutorial",
+                    '''of Project OLED"!''',
                     "                           ",
-                    "Press ESC to return to main menu",
-                    "and start the game!",
+                    "(You've been now promoted to",
+                    "- a Mini-OLED)",
+                    "                           ",
+                    "Press ESC to return to main",
+                    "menu and start the game!",
                 ],
                 
             }
@@ -767,27 +787,26 @@ def run_tutorial(win,playback_speed=2.5):
                 #main_menu.draw_logo(win,x_offset=33,y_offset=7)
 
 
-                y_ofst=3;x_ofst=32
+                y_ofst=3;x_ofst=38
 
                 ascii_art="""
-    ⢕⢕⢕⢕⠁⢜⠕⢁⣴⣿⡇⢓⢕⢵⢐⢕⢕⠕⢁⣾⢿⣧⠑⢕⢕⠄⢑⢕⠅⢕ 
-    ⢕⢕⠵⢁⠔⢁⣤⣤⣶⣶⣶⡐⣕⢽⠐⢕⠕⣡⣾⣶⣶⣶⣤⡁⢓⢕⠄⢑⢅⢑
-    ⠍⣧⠄⣶⣾⣿⣿⣿⣿⣿⣿⣷⣔⢕⢄⢡⣾⣿⣿⣿⣿⣿⣿⣿⣦⡑⢕⢤⠱⢐
-    ⢠⢕⠅⣾⣿⠋⢿⣿⣿⣿⠉⣿⣿⣷⣦⣶⣽⣿⣿⠈⣿⣿⣿⣿⠏⢹⣷⣷⡅⢐
-    ⣔⢕⢥⢻⣿⡀⠈⠛⠛⠁⢠⣿⣿⣿⣿⣿⣿⣿⣿⡀⠈⠛⠛⠁⠄⣼⣿⣿⡇⢔
-    ⢕⢕⢽⢸⢟⢟⢖⢖⢤⣶⡟⢻⣿⡿⠻⣿⣿⡟⢀⣿⣦⢤⢤⢔⢞⢿⢿⣿⠁⢕
-    ⢕⢕⠅⣐⢕⢕⢕⢕⢕⣿⣿⡄⠛⢀⣦⠈⠛⢁⣼⣿⢗⢕⢕⢕⢕⢕⢕⡏⣘⢕
-    ⢕⢕⠅⢓⣕⣕⣕⣕⣵⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣷⣕⢕⢕⢕⢕⡵⢀⢕⢕
-    ⢑⢕⠃⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⢕⢕⢕
-    ⣆⢕⠄⢱⣄⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢁⢕⢕⠕⢁
+                
+• Objective
+• Movement, Skills & Drills!
+• Rules & Scoring
+• Integrity/Drain Systems
+• Gamemodes
+• Tips & strats
+
+...and much more! \(^o^)/
     """
 
                 list = ascii_art.split("\n")  
 
                 for dy,string in enumerate(list):     
                     win.addstr(y_ofst+dy,x_ofst,string,HIGHLIGHT_COLOR)
-                text = '⇧ (totally irrelavant)'
-                win.addstr(14,65-len(text),text)
+                #text = '⇧ (totally irrelavant)'
+                #win.addstr(14,65-len(text),text)
 
 
 
@@ -1007,7 +1026,7 @@ def run_tutorial(win,playback_speed=2.5):
                         return
                     time.sleep(0.1/playback_speed)
 
-            elif tutorial.current_step in (15,16):
+            elif tutorial.current_step in (17,18):
                 win.nodelay(True)
                 try: classic_playback
                 except NameError: classic_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Classic')
@@ -1027,7 +1046,7 @@ def run_tutorial(win,playback_speed=2.5):
                     elif key == 27:  # ESC to exit
                         return
                     time.sleep(0.1/playback_speed)
-            elif tutorial.current_step in (17,18):
+            elif tutorial.current_step in (15,16):
                 win.nodelay(True)
                 try: hardcore_playback
                 except NameError: hardcore_playback=playback_window(x_offset=36,y_offset=2,play_tutorial_demo='Hardcore')
