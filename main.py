@@ -22,6 +22,7 @@ while True:
     from library.demo_browser import demo_browser
     from library.print_cutscene import print_clear,gameover_cutscene
     from library.game import game
+    from library.alpha import alpha
 
 
 
@@ -402,7 +403,11 @@ while True:
                     return 'change_menu'
             elif win_name == 'main-settings-bonusplay':
                 if selector == 1: game.mode = 'standard'; return 'exit_menu_only'
-                elif selector == 2: game.mode = 'alpha'; return 'exit_menu_only'
+                elif selector == 2: 
+                    win.erase()
+                    alpha(win)
+                    win.erase(),win.nodelay(True)
+                    #game.mode = 'alpha'; return 'exit_menu_only'
                 elif selector == 3:
                     main_menu.currentwin = 'main-settings'
                     return 'change_menu'
