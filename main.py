@@ -454,13 +454,13 @@ while True:
                 except NameError: key_queued=list()
 
                 try: # Drains duplicate input; queues all unique keystrokes
-                    key_drain = win.getkey()
+                    key_drain = win.getkey().lower()
                     while True:
                         if not key_queued:
                             key_queued.append(key_drain) 
                         elif key_queued[-1]!=key_drain:
                             key_queued.append(key_drain)
-                        key_drain = win.getkey()
+                        key_drain = win.getkey().lower()
                 except curses.error: pass
                 try: # Handle the first key in the queue
                     key=key_queued.pop(0)
@@ -475,16 +475,16 @@ while True:
                         win.erase()
                         last_erase = time.monotonic()
                     game_win.run_a_frame(win)
-                    if key in ('s','KEY_DOWN'):
+                    if key in ('s','key_down'):
                         try:    
                             selector_pos = min(selector_pos+1,num_avai_options)
                         except UnboundLocalError: selector_pos=1
-                    if key in ('w','KEY_UP'):
+                    if key in ('w','key_up'):
                         try:
                             selector_pos = max(1,selector_pos-1)
                         except UnboundLocalError: selector_pos=1
 
-                    if key in ('c','b','\n','\r','KEY_ENTER'): #selection
+                    if key in ('c','b','\n','\r','key_enter'): #selection
                         selection_result = main_menu.handleselection(main_menu.currentwin,selector_pos,win)
                         if selection_result == 'exit_menu_only':
                             break
@@ -528,8 +528,6 @@ while True:
     curses.wrapper(main_menu.run)
            
     if getattr(main_menu,'exit',False): break       #<----Quit the program
-    if getattr(game,"mode",'N/A')=='alpha': #Easter egg for "Alpha" mode
-        exec("""\n\"\"\"\nThe game goes through 10 ticks per second\n\"\"\"\nimport time\n\nimport curses\n\ndef alpha(win):\n    curses.curs_set(0)\n    win.nodelay(True)      # set once, not every loop\n    win.keypad(True)\n    selector=[0,0]\n    tick = 0\n\n\n#initialize_game_map\n    map_size=(10,10)      # create the map\n    selector=[int(map_size[0]/2),int(map_size[1]/2)]\n    map_data_list = []\n    map_data_list_temp=[]\n    for _ in range(map_size[0]):\n        map_data_list_temp+=['0']\n    for _ in range(map_size[1]):\n        map_data_list.append(map_data_list_temp[:])\n    print(map_data_list)\n#main loop \n    tick=0\n    while True:\n        tick += 1\n        win.erase()        # clear FIRST\n\n        try:\n            key = win.getkey()\n            handle_movement_alpha(key,selector,map_data_list)\n            \n        except curses.error:   # raised when no key is ready in nodelay mode\n            key = 'noinput'\n        if key == 'k':\n            break\n        try:   \n            win.addstr(0, 0, f'Tick: {tick}'+'\\n')\n            win.addstr(1, 0, f'Key: {key}')\n            win.addstr(2, 0, f'Pos: {selector}')\n            for y in range(len(map_data_list)):\n                win.addstr(3+y, 0, f'{map_data_list[y]}')\n            win.addstr(4+len(map_data_list),0,f'{r"Press {k} to exit":^50}')\n        except:\n            return None\n        win.refresh()      # <- show changes\n        time.sleep(0.1)\n      \n\n\ndef flip_alpha(x,y,map_data_list):\n    map_size=(10,10)\n    flip_alpha_list=[]\n    flip_alpha_sequence=((-1,0),(1,0),(0,0),(0,-1),(0,1))\n    for sq_x,sq_y in flip_alpha_sequence:\n        if (sq_x+int(x) in range(map_size[0]))and(sq_y+int(y) in range(map_size[1])):\n            flip_alpha_list.append([x+sq_x,y+sq_y])\n    for a,b in flip_alpha_list:\n         if str(map_data_list[a][b])[0]=='1':\n             map_data_list[a][b]='0'\n         else:\n             map_data_list[a][b]='1'\n\n\ndef handle_movement_alpha(key,selector,map_data_list):\n     if key=='w':\n         selector[1]-=1\n     if key=='s':\n         selector[1]+=1\n     if key=='d':\n         selector[0]+=1\n     if key=='a':\n         selector[0]-=1\n     if key=='b':            #flip_alpha\n         flip_alpha(selector[1],selector[0],map_data_list)\n\n            \n\n    \ncurses.wrapper(alpha)\n""")
 
 
 

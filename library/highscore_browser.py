@@ -78,13 +78,13 @@ def highscore_browser(win,max_entries=7,enableconnectivity=True):
         if len(sboard_entries_full[max_entries*(page+1):]) != 0: 
             win.addstr(14,55,'[d] Next page')
         win.addstr(16,1,'[x] Previous menu')
-        key = win.getkey()     
-        if key in ('x','KEY_BACKSPACE','\b','\x7f'):
+        key = win.getkey().lower()     
+        if key in ('x','key_backspace','\b','\x7f'):
             win.nodelay(True)
             return 0
-        elif key in ('a','KEY_LEFT'): 
+        elif key in ('a','key_left'): 
             if len(sboard_entries_full[:max_entries*(page)]) != 0: page-=1
-        elif key in ('d','KEY_RIGHT'): 
+        elif key in ('d','key_right'): 
             if len(sboard_entries_full[max_entries*(page+1):]) != 0: page+=1
         win.noutrefresh()
         curses.doupdate()  # <- show changes

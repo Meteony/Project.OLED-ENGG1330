@@ -46,13 +46,13 @@ def alpha(win):
         except NameError: key_queued=list()
 
         try: # Drains duplicate input; queues all unique keystrokes
-            key_drain = win.getkey()
+            key_drain = win.getkey().lower()
             while True:
                 if not key_queued:
                     key_queued.append(key_drain) 
                 elif key_queued[-1]!=key_drain:
                     key_queued.append(key_drain)
-                key_drain = win.getkey()
+                key_drain = win.getkey().lower()
         except curses.error: pass
         try: # Handle the first key in the queue
             key=key_queued.pop(0)

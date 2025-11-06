@@ -247,6 +247,7 @@ class game_nonblock:
         return random.choice(ones) if ones else (random.randint(0,14), random.randint(0,14))
 
     def respond_to_key(self, key):
+        key=key.lower()
         if key == "w": self.selector[1] -= 1
         if key == "s": self.selector[1] += 1
         if key == "d": self.selector[0] += 1
@@ -835,9 +836,9 @@ def run_tutorial(win,playback_speed=2.5):
                 while True: #this loop is broken out once per page change.
                     try: key = win.getch()
                     except: pass
-                    if key!=-1: translated_key = chr(key)
+                    if key!=-1: translated_key = chr(key).lower()
                     else:translated_key='noinput'
-                    game_instance.run_a_frame(win,translated_key)
+                    game_instance.run_a_frame(win,translated_key.lower())
                     win.refresh()
                     if key == curses.KEY_LEFT:# previous page
                         if tutorial.current_step > 0:
@@ -869,13 +870,13 @@ def run_tutorial(win,playback_speed=2.5):
                 while True: #this loop is broken out once per page change.
                     try: key = win.getch()
                     except: pass
-                    if key!=-1: translated_key = chr(key)
+                    if key!=-1: translated_key = chr(key).lower()
                     else:translated_key='noinput'
                     if translated_key=='n': 
                         if allowed_ors>0:    
                             allowed_ors-=1
                         else: translated_key='noinput'
-                    or_trial_instance.run_a_frame(win,translated_key)
+                    or_trial_instance.run_a_frame(win,translated_key.lower())
                     win.refresh()
                     if key == curses.KEY_LEFT:# previous page
                         if tutorial.current_step > 0:
@@ -988,9 +989,11 @@ def run_tutorial(win,playback_speed=2.5):
                 while True: #this loop is broken out once per page change.
                     try: key = win.getch()
                     except: pass
-                    if key!=-1: translated_key = chr(key)
+                    if key!=-1: translated_key = chr(key).lower()
                     else:translated_key='noinput'
-                    sweeping_trial_instance.run_a_frame(win,translated_key)
+                    if translated_key=='n': translated_key='noinput'
+
+                    sweeping_trial_instance.run_a_frame(win,translated_key.lower())
                     win.refresh()
                     if key == curses.KEY_LEFT:# previous page
                         if tutorial.current_step > 0:
@@ -1074,9 +1077,9 @@ def run_tutorial(win,playback_speed=2.5):
                 while True: #this loop is broken out once per page change.
                     try: key = win.getch()
                     except: pass
-                    if key!=-1: translated_key = chr(key)
+                    if key!=-1: translated_key = chr(key).lower()
                     else:translated_key='noinput'
-                    tact1_game_instance.run_a_frame(win,translated_key)
+                    tact1_game_instance.run_a_frame(win,translated_key.lower())
                     win.refresh()
                     if key == curses.KEY_LEFT:# previous page
                         if tutorial.current_step > 0:

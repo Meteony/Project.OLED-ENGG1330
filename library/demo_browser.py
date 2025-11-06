@@ -66,20 +66,20 @@ def demo_browser(win,max_entries=12,demo_directory=os.getcwd()):
         win.addstr(16,1,'[x] Previous menu')
         select_helper='[c]/[⏎] Select'
         win.addstr(16,68-len(select_helper),select_helper)
-        key = win.getkey()     
-        if key in ('x','KEY_BACKSPACE','\b','\x7f'):
+        key = win.getkey().lower()     
+        if key in ('x','key_backspace','\b','\x7f'):
             win.nodelay(True)
             return 0
-        elif key in ('a','KEY_LEFT'): 
+        elif key in ('a','key_left'): 
             if len(demo_list_full[:max_entries*(page)]) != 0: page-=1
-        elif key in ('d','KEY_RIGHT'): 
+        elif key in ('d','key_right'): 
             if len(demo_list_full[max_entries*(page+1):]) != 0: page+=1
-        elif key in ('w','KEY_UP'):
+        elif key in ('w','key_up'):
             cursor_position = max(0,min(cursor_position-1,len(demo_list_truncated)-1))
-        elif key in ('s','KEY_DOWN'):
+        elif key in ('s','key_down'):
             cursor_position = max(0,min(cursor_position+1,len(demo_list_truncated)-1))
 
-        elif key in ('b','c','\n','\r','KEY_ENTER'):
+        elif key in ('b','c','\n','\r','key_enter'):
             return demo_list_truncated[cursor_position]
         win.noutrefresh()
         curses.doupdate()  # <- show changes

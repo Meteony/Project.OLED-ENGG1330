@@ -279,7 +279,7 @@ def game(win,mode='standard',replay_mode=False,replay_file='Default.oled',enable
                     time.sleep(0.1);flash_safe(win);flash_safe(win);time.sleep(0.15)
 
             try: #<-------------------Pause/Skip implementation for replays (it looks for {m}/{k})
-                replay_control = win.getkey()
+                replay_control = win.getkey().lower()
                 if replay_control == 'm':  #<-------------Pause the replay 
                     win.addstr(7, 0, '█'*69, curses.color_pair(2))
                     win.addstr(8, 0, f"{' PAUSED  - PRESS ANY KEY TO CONTINUE ':█^69}", curses.color_pair(2))
@@ -294,12 +294,12 @@ def game(win,mode='standard',replay_mode=False,replay_file='Default.oled',enable
                         flash_safe(win)
                         time.sleep(0.15)
                     return {'finalstats':demo_score_n_time,'skipcutscene':game.skipcutscene}         #<---------------------------------------------------------------Breaks main loop
-                elif replay_control in ('=','.','KEY_RIGHT'):
+                elif replay_control in ('=','.','key_right'):
                     if replay_rate>=1:    
                         replay_rate+=1.0
                     else: 
                         replay_rate*=2.0
-                elif replay_control in ('-',',','KEY_LEFT'):
+                elif replay_control in ('-',',','key_left'):
                     if replay_rate>1:    
                         replay_rate = max(1.0,replay_rate-1.0)
                     elif replay_rate>=0.5:
@@ -400,13 +400,13 @@ def game(win,mode='standard',replay_mode=False,replay_file='Default.oled',enable
             except NameError: key_queued=list()
 
             try: # Drains duplicate input; queues all unique keystrokes
-                key_drain = win.getkey()
+                key_drain = win.getkey().lower()
                 while True:
                     if not key_queued:
                         key_queued.append(key_drain) 
                     elif key_queued[-1]!=key_drain:
                         key_queued.append(key_drain)
-                    key_drain = win.getkey()
+                    key_drain = win.getkey().lower()
             except curses.error: pass
             try: # Handle the first key in the queue
                 key=key_queued.pop(0)
@@ -647,7 +647,7 @@ def game(win,mode='standard',replay_mode=False,replay_file='Default.oled',enable
                 """
                 while True:
                     try: 
-                        if win.getkey() != 'KEY_RESIZE': break
+                        if win.getkey().lower() != 'KEY_RESIZE': break
                     except curses.error: pass                
             """
             elif key == 'n':      #Override Patch
