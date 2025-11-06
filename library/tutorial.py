@@ -789,7 +789,7 @@ def run_tutorial(win,playback_speed=2.5):
 
                 y_ofst=3;x_ofst=38
 
-                ascii_art="""
+                ascii_art=r"""
                 
 • Objective
 • Movement, Skills & Drills!
@@ -1092,71 +1092,6 @@ def run_tutorial(win,playback_speed=2.5):
                         return
                     time.sleep(0.1)
             
-
-
-            elif tutorial.current_step == 120:
-                win.nodelay(False)
-                ascii_art = """
-    \ \Q
-    \ \Q
-        \ \Q
-        \/`\Q
-        |   \   _+,_Q
-        \   (_[____]_Q
-        '._|.-._.-._] ////////Q
-    ^^^^^^^^^^^^'-' '-'^^^^^^^^^^^"""    
-                list = ascii_art.split("Q")  
-                for dy,string in enumerate(list):     
-                    win.addstr(5+dy,36,string.replace('\n',''))
-                win.refresh()
-                key = win.getch()
-
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    break
-                elif key == 27:  # ESC to exit
-                    return
-
-
-            elif tutorial.current_step == 201:
-                win.nodelay(False)
-                for y in range(15):    
-                    win.addstr(2+y,34," ")
-
-                x_ofst=3;y_ofst=38
-                ascii_art = """
-    ⢸⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⢸⣿⣿⣿⣿⣿⣿⣿⣷⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⠀⠀⠀⠀⠀
-    ⢸⣿⣿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠀⠀⠀⠀⠀
-    ⢸⣿⡏⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀
-    ⢸⣿⠃⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀
-    ⢸⡟⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀
-    ⢸⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀
-    ⢸⠁⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀
-    ⠘⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
-    ⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀
-    ⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀
-    ⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠀⠀⠀⠀⠀
-    """
-                list = ascii_art.split("\n")  
-                for dy,string in enumerate(list):     
-                    win.addstr(x_ofst+dy,y_ofst,string,HIGHLIGHT_COLOR)
-                win.refresh()
-                key = win.getch()
-
-                if key == curses.KEY_LEFT:# previous page
-                    if tutorial.current_step > 0:
-                        tutorial.current_step -= 1
-                    #break
-                elif key == curses.KEY_RIGHT:# next page
-                    tutorial.current_step += 1
-                    #break
-                elif key == 27:  # ESC to exit
-                    return
 
 
 
