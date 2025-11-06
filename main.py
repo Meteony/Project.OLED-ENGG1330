@@ -23,6 +23,7 @@ while True:
     from library.print_cutscene import print_clear,gameover_cutscene
     from library.game import game
     from library.alpha import alpha
+    from library.paint import paint
 
 
 
@@ -256,10 +257,11 @@ while True:
             options = [
                 f'''{'Slow Mo"':<30}''',
                 f'''{'Alpha':<30}''',
+                f'''{'Paint':<30}''',
                 f'''{'Return':<30}'''
             ]
             for num,text in enumerate(options,start=1):
-                return_btn_offset = lambda a : 4 if a == 3 else 0    
+                return_btn_offset = lambda a : 2 if a == 4 else 0    
                 if not selector_pos == num:    
                         
                         win.addstr(7+2*(num-1)+return_btn_offset(num),2+x_offset,text)
@@ -268,7 +270,7 @@ while True:
                         win.addstr(7+2*(num-1)+return_btn_offset(num),2+x_offset,text,curses.color_pair(2) | curses.A_REVERSE) 
                     else:
                         win.addstr(7+2*(num-1)+return_btn_offset(num),2+x_offset,text,curses.A_REVERSE)
-            for num in (3,4):
+            for num in (4,):
                 win.addstr(7+2*(num-1),2+x_offset,' '*30)
 
 
@@ -409,6 +411,10 @@ while True:
                     win.erase(),win.nodelay(True)
                     #game.mode = 'alpha'; return 'exit_menu_only'
                 elif selector == 3:
+                    win.erase()
+                    paint(win)
+                    win.erase(),win.nodelay(True)
+                elif selector == 4:
                     main_menu.currentwin = 'main-settings'
                     return 'change_menu'
     
