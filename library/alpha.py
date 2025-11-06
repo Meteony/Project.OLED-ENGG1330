@@ -30,7 +30,7 @@ def alpha(win):
         map_data_list_temp+=['0']
     for _ in range(map_size[1]):
         map_data_list.append(map_data_list_temp[:])
-    for _ in range(random.randint(5,15)):
+    for _ in range(random.randint(5,35)):
         flip_alpha(random.randint(0,9),random.randint(0,9),map_data_list)
     #print(map_data_list)
 #main loop 
