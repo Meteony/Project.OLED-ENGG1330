@@ -2,6 +2,13 @@ Thank you for visiting the repo page of 'Project OLED"'!
 This is a terminal-ui action-puzzle python mini-game presented proudly by me and my dearest teammates. 
 Made as a group project submission for a programming course that I took (ENGG1330, fyi) BUT the game itself is very playable and complete (and quite fun if you ask me).
 
+(Screenshots)
+<img width="1296" height="658" alt="image" src="https://github.com/user-attachments/assets/a2b167b6-36c1-462b-b096-c043e0a05bb2" />
+<img width="1290" height="661" alt="image" src="https://github.com/user-attachments/assets/199bf90d-d2bc-4f9e-9a5c-afc65497d506" />
+<img width="1300" height="663" alt="image" src="https://github.com/user-attachments/assets/0b30ee27-29df-43ca-a303-d1df574eb82b" />
+<img width="1303" height="657" alt="image" src="https://github.com/user-attachments/assets/5bd7ec1e-3ca5-4ae0-bb4a-a450effed280" />
+
+
 #######################################################
 HOW TO LAUNCH THIS GAME:
 1. Unzip all files (preferably into a dedicated folder)
