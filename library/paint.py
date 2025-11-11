@@ -122,8 +122,8 @@ def paint(win):
 
         message = syslog_appended('    [B][N]: Convert a Tile',message)
         message = syslog_appended('      [K]: Save your art',message)
-        message = syslog_appended('      [ESC/BACK]: Erase]',message)
-        message = syslog_appended('       [ENTER]: Boom!]',message)
+        message = syslog_appended('      [ESC/BACK]:  Erase',message)
+        message = syslog_appended('        [ENTER]: Boom!',message)
         message = syslog_appended(' ',message)
 
         message = syslog_appended(r'      Have fun! \(^o^)/',message)
