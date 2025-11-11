@@ -355,9 +355,9 @@ def game(win,mode='standard',replay_mode=False,replay_file='Default.oled',enable
                 blow(random.randint(0, 14), random.randint(0, 14), map_data)
 
         elif game.mode == 'hardcore':
-            for _ in range(3):
+            for _ in range(4):
                 blow(random.randint(0, 14), random.randint(0, 14), map_data)
-            for _ in range(3):
+            for _ in range(2):
                 blow(random.randint(2, 12), random.randint(2, 12), map_data)
 
             extra_powr_loss_rate = 7  #6 blows for hardcore. 

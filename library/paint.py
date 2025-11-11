@@ -245,8 +245,8 @@ def paint(win):
                     win.addstr(7, 36, str(score),curses.color_pair(2)) #Yellow
                 else:
                     win.addstr(7, 36, str(score),curses.color_pair(3)) #Red
-                if tick%10<5 and score<-0: #flashes
-                            win.addstr(7, 36, ' '*len(str(score)),curses.color_pair(1))
+                #if tick%10<5 and score<-0: #flashes
+                            #win.addstr(7, 36, ' '*len(str(score)),curses.color_pair(1))
             #endregion
 
 
@@ -271,6 +271,7 @@ def paint(win):
                 time.sleep(0.25)
                 wait_for_key(win)
             elif key in ('\x1b','key_backspace', '\b', '\x7f'):
+                score=0
                 map_data = []
                 map_data_temp = []
                 for _ in range(map_size[0]):
@@ -279,6 +280,7 @@ def paint(win):
                     map_data.append(map_data_temp[:])
             elif key in ('\n', '\r', 'key_enter'):
                 blow(*locate_random_white_tile(map_data),map_data=map_data)
+                score-=1
             elif key == 'n':      #Override Patch
                 override(selector[1],selector[0],map_data)
             #elif key == 'r':
@@ -286,7 +288,6 @@ def paint(win):
                 #tick = 0
             #if getattr(game,'enabblerecording',False):
                 #win.addstr(0,0,'REC           ')
-            score = 0
 
             
 
