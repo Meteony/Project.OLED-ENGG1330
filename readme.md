@@ -1,9 +1,4 @@
-########################################################
-Regarding grading:
-This submission finalized with a grading of B+. Huge shout-out to everyone who participated (me).
-
-
-
+Huge shout-out to everyone who participated (me).
 
 Thank you for visiting the repo page of 'Project OLED"'!
 This is a terminal-ui action-puzzle python mini-game presented proudly by me and my dearest teammates. 
