@@ -12,6 +12,7 @@ Made as a group project submission for a programming course that I took (ENGG133
 
 
 #######################################################
+
 HOW TO LAUNCH THIS GAME:
 1. Unzip all files (preferably into a dedicated folder)
 2. Click and run "main.py"
@@ -30,6 +31,7 @@ Also you can navigate the main menu w/ "WASD+C+X". Arrow keys & Enter are also s
 
 
 #######################################################
+
 Extra: How to set up your own "oled_connectivity" module
 
 If your distribution of the game only comes with a connectivity template (named "oled_connectivity.data.template"), you MIGHT want to be able to set up your own online scoreboard your family and friends to mess with.
@@ -78,6 +80,7 @@ You should now be able to switch on the "Enable Connectivity" toggle in the sett
 
 
 #######################################################
+
 P.P.S.
 
 Easiest ways to find the Google Forms field name (entry.xxxxxxxxxx):
