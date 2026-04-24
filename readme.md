@@ -1,8 +1,8 @@
-# Project OLED'
+# Project OLED"
 
 Huge shout-out to everyone who participated (me).
 
-Thank you for visiting the repo page of 'Project OLED'!
+Thank you for visiting the repo page of 'Project OLED"!
 This is a terminal-ui action-puzzle python mini-game presented proudly by me and my dearest teammates. 
 Made as a group project submission for a programming course that I took (ENGG1330, fyi) BUT the game itself is very playable and complete (and quite fun if you ask me).
 
@@ -24,7 +24,7 @@ Made as a group project submission for a programming course that I took (ENGG133
 
 That's it. You're set. Remember to size the terminal window large enough.
 
-Also remember to play the tutorial (under the 'Play Project OLED' sub-menu).
+Also remember to play the tutorial (under the 'Play Project OLED" sub-menu).
 
 Have fun with the game! I think I've amounted 40 hours of total playtime already at this point.
 
